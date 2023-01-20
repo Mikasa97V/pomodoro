@@ -1,0 +1,10 @@
+.main-wrap {
+    display: flex;
+    padding: 100px 80px;
+}
+
+.left-wrap {
+    display: flex;
+    flex-direction: column;
+    row-gap: 25px;
+}

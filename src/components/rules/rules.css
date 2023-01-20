@@ -1,0 +1,32 @@
+.main-list-wrap {
+    width: 100%;
+    max-width: 510px;
+    display: flex;
+    flex-direction: column;
+}
+
+.rules-list {
+    list-style-type: inherit;
+}
+
+.list-title {
+    margin-bottom: 3px;
+
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 33px;
+}
+
+.rule {
+    padding-left: 15px;
+    color: var(--dark-red);
+}
+
+.rule-text {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 33px;
+    color: var(--black);
+}

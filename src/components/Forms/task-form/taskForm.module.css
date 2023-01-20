@@ -1,0 +1,28 @@
+.taskFormWrap {
+    display: flex;
+    flex-direction: column;
+    row-gap: 25px;
+}
+
+.task-form-input {
+    width: 100%;
+    max-width: 340px;
+    padding: 19px 15px;
+
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 17px;
+
+    background: var(--gray);
+    color: var(--dark-gray);
+    border: none;
+}
+
+.task-form-input::placeholder {
+    color: var(--dark-gray);
+}
+
+.task-form-input:focus-visible {
+    outline: none;
+}
