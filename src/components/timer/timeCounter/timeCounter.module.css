@@ -1,0 +1,73 @@
+.main_wrap {
+    width: inherit;
+    height: 452px;
+    padding: 70px 0;
+
+    background: var(--gray);
+}
+
+.timer {
+    position: relative;
+    width: fit-content;
+    margin: 0 auto 19px;
+
+    font-style: normal;
+    font-weight: 200;
+    font-size: 150px;
+    line-height: 179px;
+}
+
+.timer_black {
+    color: var(--light-black3);
+    transition: color 0.3s ease-in-out;
+}
+
+.timer_red {
+    color: var(--red);
+    transition: color 0.3s ease-in-out;
+}
+
+.timer_green {
+    color: var(--light-green);
+    transition: color 0.3s ease-in-out;
+}
+
+.task_name_wrap {
+    width: fit-content;
+    margin: 0 auto 32px;
+
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 17px;
+}
+
+.task_number {
+    color: var(--dark-gray);
+}
+
+.task_text {
+    color: var(--light-black3);
+}
+
+.increase_time_wrap {
+    position: absolute;
+    top: 66px;
+    right: -75px;
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    padding: 0;
+
+    border-radius: 100%;
+    border: 1px solid var(--gray);
+    background-color: var(--gray-C4);
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;
+}
+
+.increase_time_wrap:hover {
+    background-color: var(--dark-green);
+    border-color: var(--dark-green);
+    transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;
+}

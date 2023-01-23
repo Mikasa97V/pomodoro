@@ -10,7 +10,7 @@ export const Navbar: React.FC = () => (
     <div className="nav-wrapper">
       <NavLink to="/" className="brand-logo">
         <div className="logo-wrap">
-          <img src={TomatoLogo}/>
+          <img src={TomatoLogo} alt="Logo" />
           <span>pomodoro_box</span>
         </div>
       </NavLink>
@@ -26,7 +26,7 @@ export const Navbar: React.FC = () => (
         <li className="list-item">
           <NavLink to="/statistics" className="NavLink">
             <div className="link-wrap">
-              <img src={Equalizer}/>
+              <img src={Equalizer} alt="" />
               <span>Статистика</span>
             </div>
           </NavLink>

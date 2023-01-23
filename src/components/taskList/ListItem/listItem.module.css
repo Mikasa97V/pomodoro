@@ -1,0 +1,63 @@
+.main_wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+
+    border-bottom: 1px solid var(--gray);
+}
+
+.task_info_wrap {
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+}
+
+.countTime {
+    position: relative;
+    width: 25px;
+    height: 25px;
+
+    border: 1px solid var(--gray-C4);
+    border-radius: 100%;
+}
+
+.countTime_text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 17px;
+
+    color: var(--light-black3);
+}
+
+.task_text {
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 17px;
+
+    color: var(--light-black3);
+}
+
+.options_button {
+    height: 18px;
+    display: flex;
+    column-gap: 4px;
+    align-items: center;
+
+    cursor: pointer;
+}
+
+.circle {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 100%;
+    background: var(--gray-C4);
+}

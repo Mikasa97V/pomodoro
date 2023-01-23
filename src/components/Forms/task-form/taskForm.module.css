@@ -1,10 +1,10 @@
-.taskFormWrap {
+.main_wrap {
     display: flex;
     flex-direction: column;
     row-gap: 25px;
 }
 
-.task-form-input {
+.input {
     width: 100%;
     max-width: 340px;
     padding: 19px 15px;
@@ -19,10 +19,18 @@
     border: none;
 }
 
-.task-form-input::placeholder {
+.input::placeholder {
     color: var(--dark-gray);
 }
 
-.task-form-input:focus-visible {
+.input:focus-visible {
     outline: none;
+}
+
+.label {
+
+}
+
+.button {
+
 }

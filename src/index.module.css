@@ -1,0 +1,85 @@
+body {
+  margin: 0;
+  font-family: 'SF UI Display', 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+  --white: #FFF;
+  --black: #000;
+  --light-black3: #333333;
+  --red: #DC3E22;
+  --dark-red: #B7280F;
+  --gray: #F4F4F4;
+  --dark-gray: #999999;
+  --gray-C4: #C4C4C4;
+  --light-green: #A8B64F;
+  --dark-green: #899441;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+button:focus-visible {
+  outline: none;
+}
+
+
+.primary_button {
+  color: var(--white);
+  background: var(--light-green);
+  border: 1px solid var(--light-green)!important;
+  transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;
+}
+
+.primary_button:hover {
+  background: var(--dark-green);
+  border: 1px solid var(--dark-green)!important;
+  transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;
+}
+
+.secondary_button {
+  color: var(--red);
+  border: 2px solid var(--red)!important;
+  transition: color 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.secondary_button:hover {
+  color: var(--white);
+  background: var(--red);
+  border: 2px solid var(--red)!important;
+  transition: color 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.secondary_button:disabled {
+  cursor: not-allowed;
+  color: var(--gray-C4);
+  background: none;
+  border: 2px solid var(--gray-C4)!important;
+  transition: color 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.button {
+  width: fit-content;
+  padding: 19px 50px;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 17px;
+  text-align: center;
+  cursor: pointer;
+}

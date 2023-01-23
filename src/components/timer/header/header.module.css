@@ -1,0 +1,37 @@
+.main_wrap {
+    width: inherit;
+    display: flex;
+    justify-content: space-between;
+    padding: 19px 40px;
+
+    color: var(--white);
+}
+
+.main_wrap_grey {
+    background: var(--gray-C4);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.main_wrap_red {
+    background: var(--red);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.main_wrap_green {
+    background: var(--light-green);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.task_text {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 17px;
+}
+
+.count {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 17px;
+}

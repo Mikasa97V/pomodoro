@@ -1,15 +1,16 @@
-.main-list-wrap {
+.main_list_wrap {
     width: 100%;
-    max-width: 510px;
+    max-width: 525px;
     display: flex;
     flex-direction: column;
 }
 
-.rules-list {
+.rules_list {
+    padding-left: 20px;
     list-style-type: inherit;
 }
 
-.list-title {
+.list_title {
     margin-bottom: 3px;
 
     font-style: normal;
@@ -23,7 +24,7 @@
     color: var(--dark-red);
 }
 
-.rule-text {
+.rule_text {
     font-style: normal;
     font-weight: 400;
     font-size: 16px;

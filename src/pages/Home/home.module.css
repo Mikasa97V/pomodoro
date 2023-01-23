@@ -1,0 +1,18 @@
+.main_wrap {
+    display: flex;
+    column-gap: 16px;
+    padding: 100px 80px;
+}
+
+.left_wrap {
+    width: 100%;
+    max-width: 525px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 25px;
+}
+
+.right_wrap {
+    width: 100%;
+    max-width: 1217px;
+}
