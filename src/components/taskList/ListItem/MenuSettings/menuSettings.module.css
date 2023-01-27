@@ -1,0 +1,16 @@
+.options_button {
+    height: 18px;
+    display: flex;
+    column-gap: 4px;
+    align-items: center;
+
+    cursor: pointer;
+}
+
+.circle {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 100%;
+    background: var(--gray-C4);
+}

@@ -1,25 +1,26 @@
-import React from 'react'
+import React, {useState} from 'react'
 import s from './listItem.module.css'
+import {Link} from "react-router-dom";
+import {MenuSettings} from "./MenuSettings";
+import { IProps } from "./listItemType";
 
-interface IProps {
-  countTime: number,
-  name: string,
-}
 
-export function ListItem({ countTime, name}: IProps) {
+export function ListItem({id, pomodors, name}: IProps) {
+  const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+
   return (
     <div className={s.main_wrap}>
-      <div className={s.task_info_wrap}>
-        <div className={s.countTime}>
-          <span className={s.countTime_text}>{countTime}</span>
+      <Link to={`/tasks/${id}`} className={s.link_width}>
+        <div className={s.task_info_wrap}>
+          <div className={s.pomodors}>
+            <span className={s.pomodors_text}>{pomodors}</span>
+          </div>
+          <div className={s.task_text}>{name}</div>
         </div>
-        <div className={s.task_text}>{name}</div>
-      </div>
-      <div className={s.options_button}>
-        <div className={s.circle}></div>
-        <div className={s.circle}></div>
-        <div className={s.circle}></div>
-      </div>
+      </Link>
+      <Link to={`/tasks/${id}/settings`}>
+        <MenuSettings id={id} isDropDownOpen={isDropDownOpen} setIsDropDownOpen={setIsDropDownOpen}/>
+      </Link>
     </div>
   )
 }

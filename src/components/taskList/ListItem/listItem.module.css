@@ -13,7 +13,7 @@
     align-items: center;
 }
 
-.countTime {
+.pomodors {
     position: relative;
     width: 25px;
     height: 25px;
@@ -22,7 +22,7 @@
     border-radius: 100%;
 }
 
-.countTime_text {
+.pomodors_text {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -45,19 +45,6 @@
     color: var(--light-black3);
 }
 
-.options_button {
-    height: 18px;
-    display: flex;
-    column-gap: 4px;
-    align-items: center;
-
-    cursor: pointer;
-}
-
-.circle {
-    width: 6px;
-    height: 6px;
-
-    border-radius: 100%;
-    background: var(--gray-C4);
+.link_width {
+    width: 100%;
 }

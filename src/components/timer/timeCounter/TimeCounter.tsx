@@ -3,25 +3,14 @@ import s from './timeCounter.module.css'
 import { TimerButtons } from './timerButtons'
 import { getPadTime } from '../../../helpers/getPadTime'
 import IncreaseTime from '../../../assets/img/Increase-time.svg'
-// import sound from '../../../assets/sound/timer.mp3'
-import useSound from 'use-sound'
-
-interface IProps {
-  isCounting: boolean
-  setIsCounting: (isStart: boolean) => void
-  setGreenButtonType: (type: string) => void
-  greenButtonType: string
-  setIsWorkTime: (isWork: boolean) => void
-  isWorkTime: boolean
-  numberOfWorks: number
-  setNumberOfWorks: (number: number) => void
-}
+import { IProps } from "./timeCounterType";
 
 export const workTime = 3 // 25 * 60
 export const shortRestTime = 5 // 5 * 60
 export const longRestTime = 30 * 60 // 5 * 60
 
 export function TimeCounter({
+    taskText,
     isCounting,
     setIsCounting,
     greenButtonType,
@@ -48,22 +37,6 @@ export function TimeCounter({
     }, 1000)
     return () => clearInterval(intervalId)
   }, [isCounting])
-
-  // const playSound = () => {
-  //   const [play] = useSound(sound)
-  //   play()
-  // }
-  //
-  // useEffect(() => {
-  //   const audioIntervalId = setInterval(() => {
-  //     if (timerLeft <= 5 && isCounting) {
-  //       console.log('sound')
-  //       playSound()
-  //     }
-  //   }, 1000)
-  //
-  //   return () => clearInterval(audioIntervalId)
-  // }, [timerLeft, isCounting])
 
   const data = {
     setIsCounting,
@@ -110,7 +83,7 @@ export function TimeCounter({
       </div>
       <div className={s.task_name_wrap}>
         <span className={s.task_number}>Задача 1 - </span>
-        <span className={s.task_text}>Сверстать сайт</span>
+        <span className={s.task_text}>{taskText || ''}</span>
       </div>
       <TimerButtons data={data}/>
     </div>

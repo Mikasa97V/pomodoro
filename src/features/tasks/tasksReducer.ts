@@ -1,20 +1,46 @@
 /* eslint-disable @typescript-eslint/default-param-last */
+import {ADD_NEW_TASK, DELETE_TASK, UPDATE_TASK} from './actionTypes'
+import { Reducer } from "redux";
 
-import { UPDATE_TASK, DELETE_TASK } from './actionTypes'
-import { TasksActionTypes } from './types'
+export type Task = {
+  id: string,
+  pomodors: number,
+  workTime: number,
+  name: string,
+}
+export type TTaskData = {
+  tasks: Task[],
+}
 
-const initialState = [
-  {countTime: 2, name: 'ghseyfgyesfg'},
-]
+const initialState: TTaskData = {
+  tasks: [],
+}
 
-export default (state = initialState, action: TasksActionTypes) => {
+export const TasksReducer: Reducer<TTaskData> = (state = initialState, action) => {
   switch (action.type) {
-    case UPDATE_TASK:
+    case ADD_NEW_TASK:
       return {
         ...state,
+        tasks: [...state.tasks , action.data],
+      }
+    case UPDATE_TASK:
+      return  {
+        ...state,
+        tasks: state.tasks.map((it) => {
+          if (it.id === action.id) {
+            return {
+              ...it,
+              pomodors: action.data
+            }
+          }
+          return it
+        })
       }
     case DELETE_TASK:
-      return { ...state, countTime: 6, name: 'delete' }
+      return {
+        ...state,
+        tasks: state.tasks.filter((it) => it.id != action.id)
+      }
     default:
       return state
   }

@@ -1,13 +1,8 @@
 import React from 'react'
 import s from './header.module.css'
+import { IProps } from "./headerType";
 
-interface IProps {
-  isCounting: boolean
-  isWorkTime: boolean
-  greenButtonType: string
-}
-
-export function Header({ greenButtonType, isWorkTime }: IProps) {
+export function Header({ greenButtonType, isWorkTime, taskName }: IProps) {
   let headerColor
   if (greenButtonType === 'start') {
     headerColor = s.main_wrap_grey
@@ -20,7 +15,7 @@ export function Header({ greenButtonType, isWorkTime }: IProps) {
   }
   return (
     <div className={`${s.main_wrap} ${headerColor}`}>
-      <div className={s.task_text}>Сверстать сайт</div>
+      <div className={s.task_text}>{taskName || 'Выберите задачу из списка'}</div>
       <div className={s.count}>Помидор 1</div>
     </div>
   )

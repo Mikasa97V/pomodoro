@@ -1,16 +1,24 @@
-import { UPDATE_TASK, DELETE_TASK } from './actionTypes'
+import {ADD_NEW_TASK, DELETE_TASK, UPDATE_TASK} from "./actionTypes";
 
-interface UpdateTaskAction {
-  type: typeof UPDATE_TASK
+export type TTaskData = {
+  id: string,
+  pomodors: number,
+  workTime: number,
+  name: string,
 }
-interface DeleteTaskAction {
-  type: typeof DELETE_TASK
+
+export type TAddNewTask = {
+  type: typeof ADD_NEW_TASK,
+  data: TTaskData,
 }
-export type TasksActionTypes = UpdateTaskAction | DeleteTaskAction
 
+export type TUpdateTask = {
+  type: typeof UPDATE_TASK,
+  id: string,
+  data: number,
+}
 
-export interface TaskState {
-  tasks: [
-    {countTime: number, name: string},
-  ]
+export type TDeleteTask = {
+  type: typeof DELETE_TASK,
+  id: string,
 }

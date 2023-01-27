@@ -1,7 +1,7 @@
 .main_wrap {
     display: flex;
     column-gap: 16px;
-    padding: 100px 80px;
+    padding: 100px 80px 10px;
 }
 
 .left_wrap {

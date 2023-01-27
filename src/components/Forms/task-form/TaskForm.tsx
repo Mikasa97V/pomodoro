@@ -1,15 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState} from 'react'
 import s from './taskForm.module.css'
 import root from '../../../index.module.css'
-// import { useDispatch } from 'react-redux'
-// import { actionTypes } from '../../../features/tasks'
+import {useDispatch} from "react-redux"
+import { addNewTask } from "../../../features/tasks/actionTypes"
+import { TData } from "./taskFormType";
+const { v1: uniqueId } = require('uuid')
+
 
 export function TaskForm() {
   const [value, setValue] = useState('')
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  const addNewTask = () => {
-    // dispatch({type: actionTypes.UPDATE_TASK})
+  const data: TData = {
+    id: uniqueId(),
+    pomodors: 1,
+    workTime: 25,
+    name: value,
+  }
+
+  const addTask = () => {
+    if (value.length > 0) {
+      dispatch(addNewTask(data))
+      setValue('');
+    } else {
+      console.log('error!')
+    }
   }
 
   return (
@@ -24,7 +39,7 @@ export function TaskForm() {
       </label>
       <button
         type="button"
-        onClick={addNewTask}
+        onClick={addTask}
         className={`${s.button} ${root.button} ${root.primary_button}`}>
         Добавить
       </button>

@@ -1,60 +1,41 @@
 import React, { useEffect } from 'react'
 import s from './timerButtons.module.css'
 import root from '../../../../index.module.css'
-import {
-  changeGreenButtonType,
-  changeRedButtonType,
-} from '../../../../helpers/changeButtonType'
+import { changeGreenButtonType, changeRedButtonType } from '../../../../helpers/changeButtonType'
 import { longRestTime, shortRestTime, workTime } from '../TimeCounter'
+import { IProps } from "./timerButtonsType";
 
-type Data = {
-  setIsCounting: (isStart: boolean) => void
-  setGreenButtonType: (type: string) => void
-  setGreenButton: (text: string) => void
-  greenButtonType: string
-  greenButton: string
-  redButton: string
-  setRedButton: (text: string) => void
-  redButtonType: string
-  setRedButtonType: (type: string) => void
-  setTimerLeft: (time: number) => void
-  timerLeft: number
-  isWorkTime: boolean
-  setIsWorkTime: (isWork: boolean) => void
-  numberOfWorks: number
-  setNumberOfWorks: (number: number) => void
-}
 
-interface IProps {
-  data: Data
-}
 
 export function TimerButtons({ data }: IProps) {
   const {
-    setIsCounting,
     greenButton,
-    greenButtonType,
-    setGreenButtonType,
-    setGreenButton,
     redButton,
-    setRedButton,
+    greenButtonType,
     redButtonType,
-    setRedButtonType,
-    setTimerLeft,
     timerLeft,
     isWorkTime,
-    setIsWorkTime,
     numberOfWorks,
+    setTimerLeft,
+    setIsWorkTime,
     setNumberOfWorks,
+    setIsCounting,
+    setGreenButton,
+    setRedButton,
+    setGreenButtonType,
+    setRedButtonType,
+
   } = data
 
   const handleStart = () => setIsCounting(true)
   const handlePause = () => setIsCounting(false)
+
   const setLongRestTime = () => {
     setIsWorkTime(false)
     setNumberOfWorks(1)
     setTimerLeft(longRestTime)
   }
+
   const resetTimer = () => {
     handlePause()
     setGreenButtonType('start')
@@ -80,7 +61,12 @@ export function TimerButtons({ data }: IProps) {
     } else if (greenButtonType === 'continue') {
       handleStart()
       setGreenButtonType('pause')
-      setRedButtonType('stop')
+      if (isWorkTime) {
+        setRedButtonType('stop')
+      } else {
+        setRedButtonType('miss')
+      }
+
     }
   }
 
@@ -108,11 +94,11 @@ export function TimerButtons({ data }: IProps) {
         handleStart()
       } else {
         setRedButtonType('stop')
-        setGreenButtonType('pause')
+        setGreenButtonType('start')
         setIsWorkTime(true)
         setTimerLeft(workTime)
         setNumberOfWorks(numberOfWorks + 1)
-        handleStart()
+        // handleStart()
       }
     } else {
       setRedButtonType('miss')

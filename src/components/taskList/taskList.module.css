@@ -10,7 +10,11 @@
 }
 
 .list_of_items {
+    width: 100%;
+    max-height: 290px;
+    padding-right: 25px;
     margin-bottom: 19px;
+    overflow-y: overlay;
 }
 
 .total_time {
