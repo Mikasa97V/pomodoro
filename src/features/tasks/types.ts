@@ -1,4 +1,4 @@
-import {ADD_NEW_TASK, DELETE_TASK, UPDATE_TASK} from "./actionTypes";
+import {ADD_NEW_TASK, DELETE_TASK, UPDATE_ALL_TASKS, UPDATE_TASK} from "./actionTypes";
 
 export type TTaskData = {
   id: string,
@@ -21,4 +21,9 @@ export type TUpdateTask = {
 export type TDeleteTask = {
   type: typeof DELETE_TASK,
   id: string,
+}
+
+export type TUpdateAllTasks = {
+  type: typeof UPDATE_ALL_TASKS,
+  data: TTaskData
 }

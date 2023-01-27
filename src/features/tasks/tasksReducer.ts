@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/default-param-last */
-import {ADD_NEW_TASK, DELETE_TASK, UPDATE_TASK} from './actionTypes'
+import {ADD_NEW_TASK, DELETE_TASK, UPDATE_ALL_TASKS, UPDATE_TASK} from './actionTypes'
 import { Reducer } from "redux";
 
 export type Task = {
@@ -18,6 +18,12 @@ const initialState: TTaskData = {
 
 export const TasksReducer: Reducer<TTaskData> = (state = initialState, action) => {
   switch (action.type) {
+    case UPDATE_ALL_TASKS: {
+      return {
+        ...state,
+        tasks: action.data
+      }
+    }
     case ADD_NEW_TASK:
       return {
         ...state,
