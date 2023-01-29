@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, {useContext, useState} from 'react'
 import s from './timeCounter.module.css'
 import { TimerButtons } from './timerButtons'
 import { getPadTime } from '../../../helpers/getPadTime'
-import IncreaseTime from '../../../assets/img/Increase-time.svg'
 import { IProps } from "./timeCounterType";
+import {TimerContext} from "../../../providers/timer/TimerProvider";
+import IncreaseTime from '../../../assets/img/Increase-time.svg';
 
 export const workTime = 3 // 25 * 60
 export const shortRestTime = 5 // 5 * 60
@@ -11,8 +12,6 @@ export const longRestTime = 30 * 60 // 5 * 60
 
 export function TimeCounter({
     taskText,
-    isCounting,
-    setIsCounting,
     greenButtonType,
     setGreenButtonType,
     isWorkTime,
@@ -20,26 +19,16 @@ export function TimeCounter({
     numberOfWorks,
     setNumberOfWorks,
 }: IProps) {
+  const {seconds: totalSeconds, increaseTime} = useContext(TimerContext)
 
-  const [timerLeft, setTimerLeft] = useState(workTime)
-  const minutes = getPadTime(Math.floor(timerLeft / 60))
-  const seconds = getPadTime(timerLeft - minutes * 60)
+  const minutes = getPadTime(Math.floor(totalSeconds / 60))
+  const seconds = getPadTime(totalSeconds - minutes * 60)
 
   const [greenButton, setGreenButton] = useState('Старт')
   const [redButton, setRedButton] = useState('Стоп')
   const [redButtonType, setRedButtonType] = useState('stop')
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (isCounting) {
-        setTimerLeft((timeLeft) => (timeLeft >= 1 ? timeLeft - 1 : 0))
-      }
-    }, 1000)
-    return () => clearInterval(intervalId)
-  }, [isCounting])
-
   const data = {
-    setIsCounting,
     greenButton,
     setGreenButton,
     greenButtonType,
@@ -48,8 +37,6 @@ export function TimeCounter({
     setRedButton,
     redButtonType,
     setRedButtonType,
-    setTimerLeft,
-    timerLeft,
     isWorkTime,
     setIsWorkTime,
     numberOfWorks,
@@ -65,10 +52,6 @@ export function TimeCounter({
     } else {
       timerColor = s.timer_green
     }
-  }
-
-  const increaseTime = () => {
-    setTimerLeft(timerLeft + 60)
   }
 
   return (

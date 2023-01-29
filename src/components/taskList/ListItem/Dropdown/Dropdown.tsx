@@ -27,7 +27,8 @@ export function Dropdown(props: IDropdownProps) {
   if (!node) return null;
 
   return ReactDOM.createPortal((
-    <div className={s.listContainer}
+    <div ref={ref}
+         className={s.listContainer}
          style={{
            top: `${coords?.top}px`,
            left: `${coords?.left}px`

@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {useMemo} from 'react'
 import s from './item.module.css'
-import { IMenuItemProps } from "./itemType";
+import {IMenuItemProps} from "./itemType";
 import {useDispatch, useSelector} from "react-redux";
 import {getTaskInfoById} from "../../../../../../features/tasks/selectors";
 import {deleteTask, updateTask} from "../../../../../../features/tasks/actionTypes";
@@ -36,20 +36,28 @@ export const Item = (props: IMenuItemProps) => {
         dispatch(deleteTask(taskId))
         break
       }
-      default: {break}
+      default: {
+        break
+      }
     }
   }
 
+  const getDisableCondition = useMemo(() => {
+    switch (text) {
+      case 'Уменьшить':
+        return task.pomodors === 1
+      default:
+        return false
+    }
+  }, [task])
 
   return (
-    <>
-      <li className={s.item_wrap} onClick={test}>
-        <button className={s.item} >
-          {icon}
-          <span>{text}</span>
-        </button>
+    <li className={s.item_wrap}>
+      <button className={s.item} onClick={test} disabled={getDisableCondition}>
+        {icon}
+        <span>{text}</span>
+      </button>
 
-      </li>
-    </>
+    </li>
   )
 }

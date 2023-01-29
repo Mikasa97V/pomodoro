@@ -20,12 +20,6 @@ export const MenuItemsArray = [
     text: 'Уменьшить',
     icon: <img src={MinusIcon} alt=''/>,
     func: (task: TTaskData) => {
-      if (task.pomodors === 1) {
-        return {
-          type: 'decrease',
-          error: true
-        }
-      }
       return {
         type: 'decrease',
         pomodors: task.pomodors - 1,
