@@ -65,7 +65,7 @@ export function TimeCounter({
         </button>
       </div>
       <div className={s.task_name_wrap}>
-        <span className={s.task_number}>Задача 1 - </span>
+        <span className={s.task_number}>{taskText ? 'Задача 1 -' : ''}</span>
         <span className={s.task_text}>{taskText || ''}</span>
       </div>
       <TimerButtons data={data}/>

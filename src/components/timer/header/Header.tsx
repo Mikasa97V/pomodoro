@@ -16,7 +16,7 @@ export function Header({ greenButtonType, isWorkTime, taskName }: IProps) {
   return (
     <div className={`${s.main_wrap} ${headerColor}`}>
       <div className={s.task_text}>{taskName || 'Выберите задачу из списка'}</div>
-      <div className={s.count}>Помидор 1</div>
+      <div className={s.count}>{taskName ? 'Помидор 1' : ''}</div>
     </div>
   )
 }

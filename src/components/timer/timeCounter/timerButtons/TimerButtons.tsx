@@ -5,9 +5,11 @@ import {changeGreenButtonType, changeRedButtonType} from '../../../../helpers/ch
 import {longRestTime, shortRestTime, workTime} from '../TimeCounter'
 import {IProps} from "./timerButtonsType";
 import {TimerContext} from "../../../../providers/timer/TimerProvider";
+import {useRouteMatch} from "react-router-dom";
 
 export function TimerButtons({data}: IProps) {
   const {seconds, setSeconds, handlePause, handleStart} = useContext(TimerContext)
+  const id = useRouteMatch<{ id: string }>("/tasks/:id")?.params.id;
 
   const {
     greenButton,
@@ -22,7 +24,6 @@ export function TimerButtons({data}: IProps) {
     setRedButton,
     setGreenButtonType,
     setRedButtonType,
-
   } = data
 
   const setLongRestTime = () => {
@@ -111,14 +112,17 @@ export function TimerButtons({data}: IProps) {
     changeRedButtonType(redButtonType, setRedButton)
   }, [redButtonType])
 
-  let isDisabled
-  isDisabled = greenButtonType === 'start'
+  let isDisabledStopButton
+  let isDisabledStartButton
+  isDisabledStopButton = greenButtonType === 'start'
+  isDisabledStartButton = !Boolean(id)
 
   return (
     <div className={s.main_wrap}>
       <button
         type="button"
         className={`${root.button} ${root.primary_button} ${s.btn_start}`}
+        disabled={isDisabledStartButton}
         onClick={handleGreenButtonClick}
       >
         {greenButton}
@@ -126,7 +130,7 @@ export function TimerButtons({data}: IProps) {
       <button
         type="button"
         className={`${root.button} ${root.secondary_button}`}
-        disabled={isDisabled}
+        disabled={isDisabledStopButton}
         onClick={handleRedButtonClick}
       >
         {redButton}

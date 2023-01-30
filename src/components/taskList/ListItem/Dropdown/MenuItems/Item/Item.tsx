@@ -4,6 +4,7 @@ import {IMenuItemProps} from "./itemType";
 import {useDispatch, useSelector} from "react-redux";
 import {getTaskInfoById} from "../../../../../../features/tasks/selectors";
 import {deleteTask, updateTask} from "../../../../../../features/tasks/actionTypes";
+import { useHistory } from 'react-router-dom'
 
 export const Item = (props: IMenuItemProps) => {
   const {
@@ -15,8 +16,9 @@ export const Item = (props: IMenuItemProps) => {
 
   const task = useSelector(getTaskInfoById(taskId));
   const dispatch = useDispatch();
+  const history = useHistory()
 
-  const test = () => {
+  const handlerClick = () => {
     const res = func(task)
     switch (res.type) {
       case 'increase': {
@@ -32,8 +34,8 @@ export const Item = (props: IMenuItemProps) => {
         break
       }
       case 'delete': {
-        console.log('delete')
         dispatch(deleteTask(taskId))
+        setTimeout(() => history.push('/tasks'), 0)
         break
       }
       default: {
@@ -53,11 +55,10 @@ export const Item = (props: IMenuItemProps) => {
 
   return (
     <li className={s.item_wrap}>
-      <button className={s.item} onClick={test} disabled={getDisableCondition}>
+      <button className={s.item} onClick={handlerClick} disabled={getDisableCondition}>
         {icon}
         <span>{text}</span>
       </button>
-
     </li>
   )
 }

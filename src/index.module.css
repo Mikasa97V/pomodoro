@@ -59,14 +59,22 @@ button:focus-visible {
 .primary_button {
   color: var(--white);
   background: var(--light-green);
-  border: 1px solid var(--light-green)!important;
+  border: 2px solid var(--light-green)!important;
   transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;
 }
 
 .primary_button:hover {
   background: var(--dark-green);
-  border: 1px solid var(--dark-green)!important;
+  border: 2px solid var(--dark-green)!important;
   transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;
+}
+
+.primary_button:disabled {
+  cursor: not-allowed;
+  color: var(--gray-C4);
+  background: none;
+  border: 2px solid var(--gray-C4)!important;
+  transition: color 0.3s ease-in-out, border 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 
 .secondary_button {
