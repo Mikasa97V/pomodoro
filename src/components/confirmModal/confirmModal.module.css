@@ -1,0 +1,88 @@
+.main_wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    /*background-color: var(--black);*/
+    /*opacity: .3;*/
+}
+
+.background {
+    width: 100%;
+    height: 100vh;
+    background: var(--black);
+    opacity: 0.3;
+}
+
+.modal_wrap {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    width: fit-content;
+    height: fit-content;
+    padding: 25px 84px;
+
+    background: var(--white);
+}
+
+.content_wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal_title {
+    margin-bottom: 25px;
+
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 17px;
+
+    color: var(--black);
+}
+
+.delete_btn {
+    width: fit-content;
+    height: fit-content;
+    padding: 15px 50px;
+    margin-bottom: 10px;
+
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 17px;
+
+    background: var(--red);
+    color: var(--white);
+    border: 2px solid var(--red);
+    transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;
+
+}
+
+.delete_btn:hover {
+    cursor: pointer;
+    background: var(--dark-red);
+    border-color: var(--dark-red);
+    transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;
+}
+
+.cancel_btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+
+    background: none;
+    border: none;
+}
+
+.cancel_btn:hover {
+    cursor: pointer;
+}

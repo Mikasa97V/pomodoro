@@ -3,7 +3,7 @@ export type TCoord = {
   left: number,
 }
 
-export type TId = {
+export type IProps = {
   id: string,
   isDropDownOpen: boolean,
   setIsDropDownOpen: (isOpen: boolean) => void,

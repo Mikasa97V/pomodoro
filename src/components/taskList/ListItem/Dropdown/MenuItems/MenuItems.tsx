@@ -4,7 +4,7 @@ import {MenuItemsArray} from "./MenuItemsArray";
 import { Item } from "./Item";
 import { IMenuItemsListProps } from "./menuItemsType";
 
-export function MenuItemsList({taskId}: IMenuItemsListProps) {
+export function MenuItemsList({taskId, setIsDropDownOpen}: IMenuItemsListProps) {
   return (
     <ul className={s.menuItemsList}>
       <div className={s.sing}></div>
@@ -16,6 +16,7 @@ export function MenuItemsList({taskId}: IMenuItemsListProps) {
             text={it.text}
             icon={it.icon}
             func={it.func}
+            setIsDropDownOpen={setIsDropDownOpen}
           />
         })
       }

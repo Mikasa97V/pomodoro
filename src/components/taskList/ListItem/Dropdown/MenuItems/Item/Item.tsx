@@ -1,21 +1,23 @@
 import React, {useMemo} from 'react'
 import s from './item.module.css'
-import {IMenuItemProps} from "./itemType";
+import {IProps} from "./itemType";
 import {useDispatch, useSelector} from "react-redux";
 import {getTaskInfoById} from "../../../../../../features/tasks/selectors";
-import {deleteTask, updateTask} from "../../../../../../features/tasks/actionTypes";
-import { useHistory } from 'react-router-dom'
+import {updateTask} from "../../../../../../features/tasks/actionTypes";
+import {useHistory} from 'react-router-dom'
 
-export const Item = (props: IMenuItemProps) => {
+export const Item = (props: IProps) => {
   const {
     taskId,
     text,
     icon,
     func,
+    setIsDropDownOpen,
   } = props
 
   const task = useSelector(getTaskInfoById(taskId));
   const dispatch = useDispatch();
+
   const history = useHistory()
 
   const handlerClick = () => {
@@ -30,12 +32,17 @@ export const Item = (props: IMenuItemProps) => {
         break
       }
       case 'edit': {
-        console.log('edit')
+        setIsDropDownOpen(false)
+        setTimeout(() => {
+          history.push(`/tasks/${taskId}/settings/edit`)
+        }, 0)
         break
       }
       case 'delete': {
-        dispatch(deleteTask(taskId))
-        setTimeout(() => history.push('/tasks'), 0)
+        setIsDropDownOpen(false)
+        setTimeout(() => {
+          history.push(`/tasks/${taskId}/settings/delete`)
+        }, 0)
         break
       }
       default: {

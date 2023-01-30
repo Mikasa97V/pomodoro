@@ -2,10 +2,10 @@ import React, {useRef, useState} from 'react'
 import s from './menuSettings.module.css'
 import {Dropdown} from '../Dropdown'
 import {MenuItemsList} from '../Dropdown/MenuItems'
-import {TCoord, TId} from "./menuSettingsType";
+import {TCoord, IProps} from "./menuSettingsType";
 
 
-export const MenuSettings = ({id, isDropDownOpen, setIsDropDownOpen}: TId) => {
+export const MenuSettings = ({id, isDropDownOpen, setIsDropDownOpen}: IProps) => {
   const [coords, setCoord] = useState<TCoord>({top: 0, left: 0});
   const ref = useRef<HTMLDivElement>(null);
 
@@ -31,7 +31,7 @@ export const MenuSettings = ({id, isDropDownOpen, setIsDropDownOpen}: TId) => {
       {isDropDownOpen &&
           <Dropdown coords={coords} onClose={toggleDropdown}>
               <div className={s.dropdown}>
-                  <MenuItemsList taskId={id}/>
+                  <MenuItemsList taskId={id} setIsDropDownOpen={setIsDropDownOpen}/>
               </div>
           </Dropdown>
       }
