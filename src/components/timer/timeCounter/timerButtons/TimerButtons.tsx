@@ -75,6 +75,8 @@ export function TimerButtons({data}: IProps) {
     } else if (redButtonType === 'done') {
       resetTimer()
       setNumberOfWorks(0)
+    } else if (redButtonType === 'miss') {
+      resetTimer()
     }
   }
 
