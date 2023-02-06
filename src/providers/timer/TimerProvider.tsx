@@ -9,7 +9,7 @@ type TimerContextProps = {
 }
 
 export const TimerContext = createContext<TimerContextProps>({
-  seconds: 25 * 60,
+  seconds: 3,
   handleStart: () => console.log('start'),
   handlePause: () => console.log('pause'),
   setSeconds: () => console.log('update seconds'),
@@ -53,8 +53,8 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({taskId, children}) 
     if (timerSeconds) {
       setSeconds(timerSeconds)
     } else {
-      setSeconds(25 * 60)
-      timers.current[taskId] = 25 * 60
+      setSeconds(3)
+      timers.current[taskId] = 3
     }
   }, [taskId])
 

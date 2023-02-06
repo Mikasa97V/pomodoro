@@ -1,0 +1,29 @@
+.text_info_block {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 14px;
+    padding: 25px;
+
+    background: var(--gray);
+}
+
+.week_day {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 33px;
+    color: var(--black);
+}
+
+.text {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 28px;
+    color: var(--black);
+}
+
+.text_time {
+    color: var(--red);
+}

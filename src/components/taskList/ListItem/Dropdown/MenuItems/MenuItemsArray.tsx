@@ -1,9 +1,9 @@
 import React from 'react'
-import AddIcon from '../../../../../assets/img/DropDownIcons/Add.svg'
-import MinusIcon from '../../../../../assets/img/DropDownIcons/Minus.svg'
-import EditIcon from '../../../../../assets/img/DropDownIcons/Edit.svg'
-import DeleteIcon from '../../../../../assets/img/DropDownIcons/Delete.svg'
-import { TTaskData } from "../../../../../features/tasks/types";
+import AddIcon from 'assets/img/DropDownIcons/Add.svg'
+import MinusIcon from 'assets/img/DropDownIcons/Minus.svg'
+import EditIcon from 'assets/img/DropDownIcons/Edit.svg'
+import DeleteIcon from 'assets/img/DropDownIcons/Delete.svg'
+import { TTaskData } from "features/tasks/types";
 
 export const MenuItemsArray = [
   {

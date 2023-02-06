@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import s from './taskForm.module.css'
-import root from '../../../index.module.css'
+import root from 'index.module.css'
+
 import {useDispatch} from "react-redux"
 import {addNewTask} from "../../../features/tasks/actionTypes"
 import {TData} from "./taskFormType";
+// import {checkUniquenessOfTaskText} from "../../../helpers/checkUniquenessOfTaskText";
+// import {getTaskList} from "../../../features/tasks/selectors";
 
 const {v1: uniqueId} = require('uuid')
 
@@ -12,6 +15,7 @@ export function TaskForm() {
   const [value, setValue] = useState('')
   const [isNotification, setIsNotification] = useState(false)
   const dispatch = useDispatch();
+  // const tasksList = useSelector(getTaskList)
   const notificationClass = isNotification ? `${s.main_wrap_notification_visible}` : `${s.main_wrap_notification_hidden}`
 
   const data: TData = {
@@ -23,6 +27,7 @@ export function TaskForm() {
 
   const addTask = () => {
     if (value.length > 0) {
+      // if (!checkUniquenessOfTaskText(value, tasksList)) return
       dispatch(addNewTask(data))
       setValue('');
     } else {

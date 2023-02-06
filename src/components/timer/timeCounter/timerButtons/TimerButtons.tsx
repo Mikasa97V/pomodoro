@@ -1,11 +1,11 @@
 import React, {useContext, useEffect} from 'react'
 import s from './timerButtons.module.css'
-import root from '../../../../index.module.css'
+import root from 'index.module.css'
 import {changeGreenButtonType, changeRedButtonType} from '../../../../helpers/changeButtonType'
 import {longRestTime, shortRestTime, workTime} from '../TimeCounter'
 import {IProps} from "./timerButtonsType";
-import {TimerContext} from "../../../../providers/timer/TimerProvider";
 import {useRouteMatch} from "react-router-dom";
+import {TimerContext} from 'providers/timer/TimerProvider'
 
 export function TimerButtons({data}: IProps) {
   const {seconds, setSeconds, handlePause, handleStart} = useContext(TimerContext)
@@ -97,7 +97,6 @@ export function TimerButtons({data}: IProps) {
         setIsWorkTime(true)
         setSeconds(workTime)
         setNumberOfWorks(numberOfWorks + 1)
-        // handleStart()
       }
     } else {
       setRedButtonType('miss')

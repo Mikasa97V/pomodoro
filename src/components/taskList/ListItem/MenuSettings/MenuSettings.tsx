@@ -15,7 +15,7 @@ export const MenuSettings = ({id, isDropDownOpen, setIsDropDownOpen}: IProps) =>
 
   const onDropDownShow = (e: React.MouseEvent<HTMLDivElement>) => {
     let targetCoord = e.currentTarget.getBoundingClientRect();
-    let left = targetCoord.left - e.currentTarget.clientWidth * 2.75;
+    let left = targetCoord.left - e.currentTarget.clientWidth * 2.45;
     let top = targetCoord.top + e.currentTarget.clientHeight * 1.45 + window.scrollY;
     setCoord({top, left});
     toggleDropdown();

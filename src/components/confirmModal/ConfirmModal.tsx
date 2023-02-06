@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react'
 import s from './confirmModal.module.css'
-import root from '../../index.module.css'
+import root from 'index.module.css'
 import ReactDOM from "react-dom"
 import {useHistory, useRouteMatch} from "react-router-dom"
 import Cancel from '../../assets/img/Cancel.svg'
@@ -35,7 +35,7 @@ export function ConfirmModal() {
   if (!node) return null
 
   return ReactDOM.createPortal((
-    <div className={s.main_wrap} >
+    <div className={root.main_wrap_modal} >
       <div className={s.modal_wrap} ref={ref}>
         <button className={s.cancel_btn} onClick={handleCancel}>
           <img src={Cancel} alt=""/>
@@ -46,7 +46,7 @@ export function ConfirmModal() {
           <button className={root.cancel_btn} onClick={handleCancel}>Отмена</button>
         </div>
       </div>
-      <div className={s.background}></div>
+      <div className={root.modal_background}></div>
     </div>
   ), node)
 }

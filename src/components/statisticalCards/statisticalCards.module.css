@@ -1,0 +1,4 @@
+.main_wrap {
+    display: flex;
+    column-gap: 32px;
+}
