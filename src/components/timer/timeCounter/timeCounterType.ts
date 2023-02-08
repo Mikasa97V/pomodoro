@@ -1,9 +1,5 @@
 export interface IProps {
+  id: string | undefined
   taskText: string
-  setGreenButtonType: (type: string) => void
-  greenButtonType: string
-  setIsWorkTime: (isWork: boolean) => void
-  isWorkTime: boolean
-  numberOfWorks: number
-  setNumberOfWorks: (number: number) => void
+  taskNumber: string
 }

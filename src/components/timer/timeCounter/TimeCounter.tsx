@@ -1,50 +1,36 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext} from 'react'
 import s from './timeCounter.module.css'
-import { TimerButtons } from './timerButtons'
-import { getPadTime } from '../../../helpers/getPadTime'
-import { IProps } from "./timeCounterType";
+import {TimerButtons} from './timerButtons'
+import {getPadTime} from '../../../helpers/getPadTime'
+import {IProps} from "./timeCounterType";
 import {TimerContext} from "../../../providers/timer/TimerProvider";
 import IncreaseTime from '../../../assets/img/Increase-time.svg';
 
-export const workTime = 3 // 25 * 60
-export const shortRestTime = 5 // 5 * 60
-export const longRestTime = 30 * 60 // 5 * 60
+export const workTime = 25 * 60
+export const shortRestTime = 5 * 60
+export const longRestTime = 30 * 60
 
 export function TimeCounter({
-    taskText,
-    greenButtonType,
-    setGreenButtonType,
+                              id,
+                              taskText,
+                              taskNumber,
+                            }: IProps) {
+
+  let {
+    seconds: totalSeconds,
+    increaseTime,
     isWorkTime,
-    setIsWorkTime,
-    numberOfWorks,
-    setNumberOfWorks,
-}: IProps) {
-  const {seconds: totalSeconds, increaseTime} = useContext(TimerContext)
+    greenButton,
+  } = useContext(TimerContext)
+
+  totalSeconds = id ? totalSeconds : 25 * 60
 
   const minutes = getPadTime(Math.floor(totalSeconds / 60))
   const seconds = getPadTime(totalSeconds - minutes * 60)
 
-  const [greenButton, setGreenButton] = useState('Старт')
-  const [redButton, setRedButton] = useState('Стоп')
-  const [redButtonType, setRedButtonType] = useState('stop')
-
-  const data = {
-    greenButton,
-    setGreenButton,
-    greenButtonType,
-    setGreenButtonType,
-    redButton,
-    setRedButton,
-    redButtonType,
-    setRedButtonType,
-    isWorkTime,
-    setIsWorkTime,
-    numberOfWorks,
-    setNumberOfWorks,
-  }
 
   let timerColor
-  if (greenButtonType === 'start' || greenButtonType === 'continue') {
+  if (greenButton === 'Старт' || greenButton === 'Продолжить') {
     timerColor = s.timer_black
   } else {
     if (isWorkTime) {
@@ -65,10 +51,10 @@ export function TimeCounter({
         </button>
       </div>
       <div className={s.task_name_wrap}>
-        <span className={s.task_number}>{taskText ? 'Задача 1 -' : ''}</span>
+        <span className={s.task_number}>{taskText ? `Задача ${taskNumber} - ` : ''}</span>
         <span className={s.task_text}>{taskText || ''}</span>
       </div>
-      <TimerButtons data={data}/>
+      <TimerButtons/>
     </div>
   )
 }

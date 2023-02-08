@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react'
+import React, { useRef, useState} from 'react'
 import s from './menuSettings.module.css'
 import {Dropdown} from '../Dropdown'
 import {MenuItemsList} from '../Dropdown/MenuItems'

@@ -5,14 +5,16 @@ import { TaskForm } from '../../components/Forms/task-form'
 import { TaskList } from '../../components/taskList'
 // import Counter from '../../components/counter/Counter'
 import { Timer } from '../../components/timer'
-import {useLocation} from "react-router-dom";
+import {useLocation, useRouteMatch} from "react-router-dom";
 import {ConfirmModal} from "../../components/confirmModal";
 import {EditModal} from "../../components/editModal";
+import {TimerProvider} from "../../providers/timer/TimerProvider";
 
 export const Home: React.FC = () => {
   const [isConfirmDelete, setIsConfirmDelete] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const location = useLocation()
+  const idFromPath = useRouteMatch<{ id: string }>("/tasks/:id")?.params.id;
 
   useEffect(() => {
     setIsConfirmDelete(location.pathname.includes('/settings/delete'))
@@ -23,6 +25,7 @@ export const Home: React.FC = () => {
   }, [location])
 
   return (
+    <TimerProvider taskId={idFromPath}>
     <div className={s.main_wrap}>
       <div className={s.left_wrap}>
         <Rules />
@@ -40,5 +43,7 @@ export const Home: React.FC = () => {
         <EditModal />
       )}
     </div>
+    </TimerProvider>
+
   )
 }

@@ -1,10 +1,16 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import s from './header.module.css'
 import { IProps } from "./headerType";
+import {TimerContext} from "../../../providers/timer/TimerProvider";
 
-export function Header({ greenButtonType, isWorkTime, taskName }: IProps) {
+export function Header({taskName }: IProps) {
+  const {
+    isWorkTime,
+    greenButton,
+  } = useContext(TimerContext)
+
   let headerColor
-  if (greenButtonType === 'start') {
+  if (greenButton === 'Старт') {
     headerColor = s.main_wrap_grey
   } else {
     if (isWorkTime) {
