@@ -6,9 +6,9 @@ import {IProps} from "./timeCounterType";
 import {TimerContext} from "../../../providers/timer/TimerProvider";
 import IncreaseTime from '../../../assets/img/Increase-time.svg';
 
-export const workTime = 25 * 60
-export const shortRestTime = 5 * 60
-export const longRestTime = 30 * 60
+export const workTime = 3 // change-minutes
+export const shortRestTime = 5 // change-minutes
+export const longRestTime = 9 // change-minutes
 
 export function TimeCounter({
                               id,
@@ -18,12 +18,11 @@ export function TimeCounter({
 
   let {
     seconds: totalSeconds,
-    increaseTime,
     isWorkTime,
     greenButton,
   } = useContext(TimerContext)
 
-  totalSeconds = id ? totalSeconds : 25 * 60
+  totalSeconds = id ? totalSeconds : 3 // change-minutes
 
   const minutes = getPadTime(Math.floor(totalSeconds / 60))
   const seconds = getPadTime(totalSeconds - minutes * 60)
@@ -46,7 +45,7 @@ export function TimeCounter({
         <span>{minutes}</span>
         <span>:</span>
         <span>{seconds}</span>
-        <button className={s.increase_time_wrap} onClick={increaseTime}>
+        <button className={s.increase_time_wrap} onClick={() => null}>
           <img src={IncreaseTime} alt="Add time"/>
         </button>
       </div>

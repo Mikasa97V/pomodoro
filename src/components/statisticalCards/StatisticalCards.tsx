@@ -9,25 +9,30 @@ import StopClock from 'assets/img/StatisticalCards/color/alarm-clock-stop.svg'
 import DefaultClock from 'assets/img/StatisticalCards/default/alarm-clock.svg'
 import DefaultPauseClock from 'assets/img/StatisticalCards/default/alarm-clock-pause.svg'
 import DefaultStopClock from 'assets/img/StatisticalCards/default/alarm-clock-stop.svg'
+import {useTotalPauses, useTotalPauseTime, useTotalTime, useTotalWorkTime} from "../../features/statistics/selectors";
 
 export function StatisticalCards() {
   const isDay = true;
+  const totalPaused = useTotalPauses()
+  const totalPauseTime = useTotalPauseTime()
+  const totalTime = useTotalTime()
+  const totalWorkTime = useTotalWorkTime()
   const cardData = [
     {
       title: 'Фокус',
-      value: '35%',
+      value: (totalWorkTime / totalTime * 100).toFixed(0) + '%',
       color: '#FFDDA9',
       icon: <img src={isDay ? Clock : DefaultClock} alt=''/>
     },
     {
       title: 'Время на паузе',
-      value: '9м',
+      value: totalPauseTime,
       color: '#DFDCFE',
       icon: <img src={isDay ? PauseClock : DefaultPauseClock} alt=''/>
     },
     {
       title: 'Остановки',
-      value: '3',
+      value: totalPaused,
       color: '#C5F1FF',
       icon: <img src={isDay ? StopClock : DefaultStopClock} alt=''/>
     },

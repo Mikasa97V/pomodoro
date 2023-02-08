@@ -1,222 +1,236 @@
-import React, {createContext, useEffect, useRef, useState} from "react";
-import {longRestTime, shortRestTime, workTime} from "../../components/timer/timeCounter";
+import React, {createContext, useEffect, useMemo, useRef, useState} from "react";
+import {useDispatch} from "react-redux";
+import {
+  setTotalWorkTime,
+  setTotalWorksDone,
+  setTotalPauses,
+  setTotalPauseTime,
+  setTotalTime,
+} from "../../features/statistics/actionTypes";
 
+export type GreenButton = 'START' | 'PAUSE' | 'CONTINUE'
+export type RedButton = 'STOP' | 'MISS' | 'DONE'
+type Button = 'RED' | 'GREEN'
 type TimerContextProps = {
   seconds: number
+  isWorkTime: boolean | null
   greenButton: string
   redButton: string
-  isWorkTime: boolean,
-  numberOfWorks: number,
-  handleStart: (cb?: () => void) => void
-  handlePause: (cb?: () => void) => void
-  setSeconds: (a: number) => void
-  increaseTime: () => void
-  setStartButtonType: () => void
-  setMissPauseType: () => void
-  setDoneContinueType: () => void
-  setStopPauseType: () => void
-  resetTimer: () => void
-  setLongRestTime: () => void
-  handleGreenButtonClick: () => void
-  handleRedButtonClick: () => void
-  setIsWorkTime: (isWorkTime: boolean) => void
-  setNumberOfWorks: (numberOfWorks: number) => void
+  handleGreenButtonClick: (a: GreenButton) => void
+  handleRedButtonClick: (a: RedButton) => void
+  increaseTotalWorksDone: () => void
+  totalWorksDone: number
+  totalTime: number
+  workTime: number
+  pausedTime: number
+  totalPauses: number
 }
 
 export const TimerContext = createContext<TimerContextProps>({
-  seconds: 25 * 60,
+  seconds: 0,
+  isWorkTime: null,
   greenButton: 'Старт',
   redButton: 'Стоп',
-  isWorkTime: true,
-  numberOfWorks: 0,
-  handleStart: () => console.log('start'),
-  handlePause: () => console.log('pause'),
-  setSeconds: () => console.log('update seconds'),
-  increaseTime: () => console.log('increaseTime'),
-  setStartButtonType: () => console.log('setStartButtonType'),
-  setMissPauseType: () => console.log('setMissPauseType'),
-  setDoneContinueType: () => console.log('setDoneContinueType'),
-  setStopPauseType: () => console.log('setStopPauseType'),
-  resetTimer: () => console.log('resetTimer'),
-  setLongRestTime: () => console.log('setLongRestTime'),
-  handleGreenButtonClick: () => console.log('handleGreenButtonClick'),
-  handleRedButtonClick: () => console.log('handleRedButtonClick'),
-  setIsWorkTime: () => console.log('setIsWorkTime'),
-  setNumberOfWorks: () => console.log('setNumberOfWorks'),
+  handleGreenButtonClick: a => console.log(a),
+  handleRedButtonClick: a => console.log(a),
+  increaseTotalWorksDone: () => {},
+  pausedTime: 0,
+  totalPauses: 0,
+  workTime: 0,
+  totalTime: 0,
+  totalWorksDone: 0,
 })
 
 type TimerProviderProps = {
   taskId?: string
   children: React.ReactNode
 }
-export const TimerProvider: React.FC<TimerProviderProps> = ({taskId, children}) => {
-  const [isCounting, setIsCounting] = useState(false)
-  const [seconds, setSeconds] = useState(25 * 60)
-  const [isWorkTime, setIsWorkTime] = useState(true)
-  const [numberOfWorks, setNumberOfWorks] = useState(0)
+export const TimerProvider: React.FC<TimerProviderProps> = ({
+                                                              taskId,
+                                                              children
+                                                            }) => {
+  const dispatch = useDispatch()
+  // Статистика
+  const [totalTime, setTotalTimeLocal] = useState(0)
+  const [workTime, setWorkTime] = useState(0)
+  const [pausedTime, setPausedTime] = useState(0)
+  const [totalPauses, setTotalPausesLocal] = useState(0)
 
+  // Счетчик выполненных работ
+  const [totalWorksDone, setTotalWorksDoneLocal] = useState(1)
+  const increaseTotalWorksDone = () => setTotalWorksDoneLocal((prev) => ++prev)
+
+  // Запущен ли таймер
+  const [isCounting, setIsCounting] = useState(false)
+
+  const DEFAULT_WORK_TIME_SECONDS = 25 * 60
+  const DEFAULT_BREAK_TIME_SECONDS = 3 * 60
+  const LONG_BREAK_TIME_SECONDS = 15 * 60
+
+  // const DEFAULT_WORK_TIME_SECONDS = 3
+  // const DEFAULT_BREAK_TIME_SECONDS = 1
+  // const LONG_BREAK_TIME_SECONDS = 2
+  // Остаток секунд на таймере
+  const [seconds, setSeconds] = useState(DEFAULT_WORK_TIME_SECONDS) // change-minutes
+
+  // Тип таймера работа / отдых
+  const [isWorkTime, setIsWorkTime] = useState<boolean | null>(null)
+
+  // Текст для кнопок таймера
   const [greenButton, setGreenButton] = useState('Старт')
   const [redButton, setRedButton] = useState('Стоп')
 
-  const timers = useRef<any>({})
-  const handleStart = (cb?: () => void) => {
-    setIsCounting(true)
-    if (cb) {
-      cb()
+  const buttonsState = useMemo(() => {
+    return {
+      START: 'Старт',
+      PAUSE: 'Пауза',
+      STOP: 'Стоп',
+      CONTINUE: 'Продолжить',
+      MISS: 'Пропустить',
+      DONE: 'Сделано'
+    }
+  }, [])
+
+  const setButtonState = (btn: Button, state: GreenButton | RedButton) => {
+    if (btn === 'RED') {
+      setRedButton(buttonsState[state])
+    } else {
+      setGreenButton(buttonsState[state])
     }
   }
-  const handlePause = (cb?: () => void) => {
-    setIsCounting(false)
-    if (cb) {
-      cb()
-    }
-  }
+
   const increaseTime = () => setSeconds((prevSeconds) => prevSeconds + 60)
 
-  const setStartButtonType = () => {
-    setRedButton('Стоп')
-    setGreenButton('Старт')
+  const handleStart = () => {
+    setButtonState('GREEN', 'PAUSE')
+    setButtonState('RED', 'STOP')
+    setIsWorkTime(true)
+    setIsCounting(true)
   }
-
-  const setMissPauseType = () => {
-    setRedButton('Пропустить')
-    setGreenButton('Пауза')
+  const handlePause = () => {
+    setButtonState('GREEN', 'CONTINUE')
+    setButtonState('RED', isWorkTime ? 'DONE' : 'MISS')
+    setIsCounting(false)
+    setTotalPausesLocal((prev) => ++prev)
   }
-
-  const setDoneContinueType = () => {
-    setRedButton('Сделано')
-    setGreenButton('Продолжить')
+  const handleStop = () => {
+    setButtonState('GREEN', 'START')
+    setButtonState('RED', 'STOP')
+    setIsWorkTime(null)
+    setIsCounting(false)
+    setSeconds(DEFAULT_WORK_TIME_SECONDS)
   }
-
-  const setStopPauseType = () => {
-    setRedButton('Стоп')
-    setGreenButton('Пауза')
+  const handleContinue = () => {
+    setButtonState('GREEN', 'PAUSE')
+    setButtonState('RED', isWorkTime ? 'STOP' : 'MISS')
+    setIsCounting(true)
   }
-
-  const setLongRestTime = () => {
+  const handleMiss = () => {
+    setButtonState('GREEN', 'START')
+    setButtonState('RED', 'STOP')
+    setIsWorkTime(null)
+    setIsCounting(false)
+    setSeconds(DEFAULT_WORK_TIME_SECONDS)
+  }
+  const handleDone = () => {
+    setButtonState('GREEN', 'PAUSE')
+    setButtonState('RED', 'MISS')
     setIsWorkTime(false)
-    setNumberOfWorks(1)
-    setSeconds(longRestTime)
-    handleStart()
+    setIsCounting(true)
+    increaseTotalWorksDone()
+    setSeconds(totalWorksDone % 4 === 0 ? LONG_BREAK_TIME_SECONDS : DEFAULT_BREAK_TIME_SECONDS)
   }
 
-  const resetTimer = () => {
-    handlePause()
-    setStartButtonType()
-    setSeconds(workTime)
-
-    if (numberOfWorks > 5) {
-      setLongRestTime()
-      setStopPauseType()
-    }
-
-  }
-
-  const handleGreenButtonClick = () => {
-    if (greenButton === 'Старт') {
-      handleStart()
-      setGreenButton('Пауза')
-    } else if (greenButton === 'Пауза') {
-      handlePause()
-      setDoneContinueType()
-    } else if (greenButton === 'Продолжить') {
-      handleStart()
-      setGreenButton('Пауза')
-      if (isWorkTime) {
-        setRedButton('Стоп')
-      } else {
-        setRedButton('Пропустить')
-      }
-
+  const handleGreenButtonClick = (state: GreenButton) => {
+    switch (state) {
+      case "START":
+        return handleStart()
+      case "PAUSE":
+        return handlePause()
+      case "CONTINUE":
+        return handleContinue()
     }
   }
 
-  const handleRedButtonClick = () => {
-    if (redButton === 'Стоп') {
-      handlePause()
-      setDoneContinueType()
-    } else if (redButton === 'Сделано') {
-      resetTimer()
-      setNumberOfWorks(0)
-    } else if (redButton === 'Пропустить') {
-      resetTimer()
+  const handleRedButtonClick = (state: RedButton) => {
+    switch (state) {
+      case "STOP":
+        return handleStop()
+      case "DONE":
+        return handleDone()
+      case "MISS":
+        return handleMiss()
     }
   }
-
-  useEffect(() => {
-    if (seconds != 0) return
-    resetTimer()
-    if (numberOfWorks <= 5) {
-      if (isWorkTime) {
-        setMissPauseType()
-        setIsWorkTime(false)
-        setSeconds(shortRestTime)
-        setNumberOfWorks(numberOfWorks + 1)
-        handleStart()
-      } else {
-        setStartButtonType()
-        setIsWorkTime(true)
-        setSeconds(workTime)
-        setNumberOfWorks(numberOfWorks + 1)
-      }
-    } else {
-      setMissPauseType()
-      setLongRestTime()
-    }
-  }, [seconds, numberOfWorks])
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (isCounting) {
-        setSeconds((prevSeconds) => (prevSeconds >= 1 ? prevSeconds - 1 : 0))
+        setSeconds((prevSeconds) => --prevSeconds)
       }
     }, 1000)
     return () => clearInterval(intervalId)
   }, [isCounting])
 
   useEffect(() => {
-    if (!taskId || !timers.current) return
-    timers.current[taskId] = seconds
+    if (seconds === 0) {
+      if (isWorkTime === true) {
+        handleDone()
+      } else {
+        handleMiss()
+      }
+    }
   }, [seconds])
 
   useEffect(() => {
     if (!taskId) return
-    const timerSeconds = timers.current[taskId]
-    if (timerSeconds) {
-      setSeconds(timerSeconds)
-    } else {
-      setSeconds(25 * 60)
-      timers.current[taskId] = 25 * 60
-    }
-    if (timerSeconds < workTime) {
-      handlePause(setDoneContinueType)
-    } else {
-      handlePause(setStartButtonType)
-    }
+    handleStop()
   }, [taskId])
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setTotalTimeLocal((prev) => ++prev)
+      if (isWorkTime === true) {
+        setWorkTime((prev) => ++prev)
+      }
+      if (!isCounting) {
+        setPausedTime((prevSeconds) => ++prevSeconds)
+      }
+    }, 1000)
+    return () => clearInterval(intervalId)
+  }, [isWorkTime, isCounting])
+
+  useEffect(() => {
+    dispatch(setTotalTime(totalTime))
+  }, [totalTime])
+  useEffect(() => {
+    dispatch(setTotalWorkTime(workTime))
+  }, [workTime])
+  useEffect(() => {
+    dispatch(setTotalPauseTime(pausedTime))
+  }, [pausedTime])
+  useEffect(() => {
+    dispatch(setTotalPauses(totalPauses))
+  }, [totalPauses])
+  useEffect(() => {
+    dispatch(setTotalWorksDone(totalWorksDone))
+  }, [totalWorksDone])
 
   return (
     <TimerContext.Provider
       value={{
         seconds,
+        isWorkTime,
         greenButton,
         redButton,
-        isWorkTime,
-        numberOfWorks,
-        setSeconds,
-        handlePause,
-        handleStart,
-        increaseTime,
-        setMissPauseType,
-        setDoneContinueType,
-        setStopPauseType,
-        setStartButtonType,
-        resetTimer,
-        setLongRestTime,
         handleGreenButtonClick,
         handleRedButtonClick,
-        setIsWorkTime,
-        setNumberOfWorks,
+        increaseTotalWorksDone,
+        totalWorksDone,
+        totalTime,
+        workTime,
+        pausedTime,
+        totalPauses,
       }}
       key={taskId}
     >
