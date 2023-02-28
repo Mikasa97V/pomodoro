@@ -1,32 +1,34 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import s from './timeCounter.module.css'
 import {TimerButtons} from './timerButtons'
 import {getPadTime} from '../../../helpers/getPadTime'
 import {IProps} from "./timeCounterType";
 import {TimerContext} from "../../../providers/timer/TimerProvider";
 import IncreaseTime from '../../../assets/img/Increase-time.svg';
-
-export const workTime = 3 // change-minutes
-export const shortRestTime = 5 // change-minutes
-export const longRestTime = 9 // change-minutes
+import {useDispatch} from "react-redux";
+import {deleteTask, updateTask, updateTaskNumber} from "../../../features/tasks/actionTypes";
 
 export function TimeCounter({
                               id,
                               taskText,
                               taskNumber,
+                              pomodors,
                             }: IProps) {
 
   let {
     seconds: totalSeconds,
     isWorkTime,
     greenButton,
-  } = useContext(TimerContext)
+    increaseTime,
 
-  totalSeconds = id ? totalSeconds : 3 // change-minutes
+  } = useContext(TimerContext)
+  const dispatch = useDispatch()
+
+  totalSeconds = id ? totalSeconds : 0
 
   const minutes = getPadTime(Math.floor(totalSeconds / 60))
   const seconds = getPadTime(totalSeconds - minutes * 60)
-
+  const isDisabledAddTimeButton = !Boolean(id)
 
   let timerColor
   if (greenButton === 'Старт' || greenButton === 'Продолжить') {
@@ -39,13 +41,29 @@ export function TimeCounter({
     }
   }
 
+  const updateTaskInfo = () => {
+    dispatch(updateTask(id, pomodors - 1))
+    dispatch(updateTaskNumber(id, taskNumber + 1))
+  }
+
+  const deleteTaskHandle = () => {
+    dispatch(deleteTask(id))
+  }
+  useEffect(() => {
+    if (totalSeconds === 0 && !isWorkTime) updateTaskInfo()
+    if (pomodors === 0) deleteTaskHandle()
+  }, [totalSeconds])
+
   return (
     <div className={s.main_wrap}>
       <div className={`${s.timer} ${timerColor}`}>
         <span>{minutes}</span>
         <span>:</span>
         <span>{seconds}</span>
-        <button className={s.increase_time_wrap} onClick={() => null}>
+        <button
+          className={s.increase_time_wrap}
+          disabled={isDisabledAddTimeButton}
+          onClick={increaseTime}>
           <img src={IncreaseTime} alt="Add time"/>
         </button>
       </div>

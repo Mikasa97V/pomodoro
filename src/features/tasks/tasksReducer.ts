@@ -1,5 +1,11 @@
 /* eslint-disable @typescript-eslint/default-param-last */
-import {ADD_NEW_TASK, DELETE_TASK, UPDATE_ALL_TASKS, UPDATE_POMODORS, UPDATE_TASK_INFO} from './actionTypes'
+import {
+  ADD_NEW_TASK,
+  DELETE_TASK,
+  UPDATE_ALL_TASKS,
+  UPDATE_POMODORS,
+  UPDATE_TASK_NAME, UPDATE_TASK_NUMBER
+} from './actionTypes'
 import { Reducer } from "redux";
 
 export type Task = {
@@ -43,7 +49,20 @@ export const TasksReducer: Reducer<TTaskData> = (state = initialState, action) =
           return it
         })
       }
-    case UPDATE_TASK_INFO: {
+    case UPDATE_TASK_NUMBER:
+      return  {
+        ...state,
+        tasks: state.tasks.map((it) => {
+          if (it.id === action.id) {
+            return {
+              ...it,
+              taskNumber: action.data
+            }
+          }
+          return it
+        })
+      }
+    case UPDATE_TASK_NAME: {
       return {
         ...state,
         tasks: state.tasks.map((it) => {

@@ -1,4 +1,10 @@
-import {ADD_NEW_TASK, DELETE_TASK, UPDATE_ALL_TASKS, UPDATE_POMODORS, UPDATE_TASK_INFO} from "./actionTypes";
+import {
+  ADD_NEW_TASK,
+  DELETE_TASK,
+  UPDATE_ALL_TASKS,
+  UPDATE_POMODORS, UPDATE_TASK_NAME,
+  UPDATE_TASK_NUMBER
+} from "./actionTypes";
 
 export type TTaskData = {
   id: string,
@@ -18,8 +24,14 @@ export type TUpdateTask = {
   data: number,
 }
 
-export type TUpdateTaskInfo = {
-  type: typeof UPDATE_TASK_INFO,
+export type TUpdateTaskNumber = {
+  type: typeof UPDATE_TASK_NUMBER,
+  id: string,
+  data: number,
+}
+
+export type TUpdateTaskName = {
+  type: typeof UPDATE_TASK_NAME,
   id: string,
   name: string,
 }

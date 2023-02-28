@@ -34,26 +34,3 @@
 .button {
 
 }
-
-.main_wrap_notification {
-    position: absolute;
-    top: 80px;
-    right: 20px;
-    width: fit-content;
-    padding: 9px 15px;
-
-    background: var(--red);
-    color: var(--white);
-    border: 1px solid var(--red);
-    border-radius: 10px;
-}
-
-.main_wrap_notification_visible {
-    opacity: 1;
-    transition: opacity 0.3s ease-in-out;
-}
-
-.main_wrap_notification_hidden {
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-}

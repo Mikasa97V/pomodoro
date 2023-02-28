@@ -49,3 +49,15 @@
 .link_width {
     width: 100%;
 }
+
+.cursor_default {
+    cursor: pointer;
+}
+
+.cursor_not_allowed {
+    cursor: not-allowed;
+}
+
+.cursor_not_allowed a {
+    pointer-events: none;
+}

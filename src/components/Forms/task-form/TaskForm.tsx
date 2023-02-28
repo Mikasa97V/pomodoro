@@ -2,12 +2,10 @@ import React, {useEffect, useState} from 'react'
 import s from './taskForm.module.css'
 import root from 'index.module.css'
 
-import {useDispatch, useSelector} from "react-redux"
+import {useDispatch} from "react-redux"
 import {addNewTask} from "../../../features/tasks/actionTypes"
 import {TData} from "./taskFormType";
 // import {checkUniquenessOfTaskText} from "../../../helpers/checkUniquenessOfTaskText";
-import {getTaskList} from "../../../features/tasks/selectors";
-import {getNewTaskNumber} from "../../../helpers/getNewTaskNumber";
 
 const {v1: uniqueId} = require('uuid')
 
@@ -16,21 +14,19 @@ export function TaskForm() {
   const [value, setValue] = useState('')
   const [isNotification, setIsNotification] = useState(false)
   const dispatch = useDispatch();
-  const tasksList = useSelector(getTaskList)
-  const notificationClass = isNotification ? `${s.main_wrap_notification_visible}` : `${s.main_wrap_notification_hidden}`
+  const notificationClass = isNotification ? `${root.main_wrap_notification_visible}` : `${root.main_wrap_notification_hidden}`
 
 
   const data: TData = {
     id: uniqueId(),
     pomodors: 1,
     workTime: 25,
-    taskNumber: getNewTaskNumber(tasksList),
+    taskNumber: 1,
     name: value,
   }
 
   const addTask = () => {
     if (value.length > 0) {
-      // if (!checkUniquenessOfTaskText(value, tasksList)) return
       dispatch(addNewTask(data))
       setValue('');
     } else {
@@ -76,8 +72,8 @@ export function TaskForm() {
         Добавить
       </button>
       <div
-        className={`${s.main_wrap_notification} ${notificationClass}`}>Введите
-        название задачи в поле
+        className={`${root.main_wrap_notification} ${notificationClass}`}
+      >Введите название задачи в поле
       </div>
     </form>
   )

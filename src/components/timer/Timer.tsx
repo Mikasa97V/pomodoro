@@ -20,6 +20,7 @@ export function Timer() {
           id={idFromPath}
           taskText={taskById?.name}
           taskNumber={taskById?.taskNumber}
+          pomodors={taskById?.pomodors}
         />
       </div>
   )

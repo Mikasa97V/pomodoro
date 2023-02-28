@@ -6,7 +6,7 @@ import {useHistory, useRouteMatch} from "react-router-dom"
 import Cancel from '../../assets/img/Cancel.svg'
 import {useDispatch, useSelector} from "react-redux"
 import {getTaskInfoById, getTaskList} from "../../features/tasks/selectors"
-import {updateTaskInfo} from "../../features/tasks/actionTypes"
+import {updateTaskName} from "../../features/tasks/actionTypes"
 import {checkUniquenessOfTaskText} from "../../helpers/checkUniquenessOfTaskText";
 
 export function EditModal() {
@@ -17,6 +17,8 @@ export function EditModal() {
   const taskInfo = useSelector(getTaskInfoById(id))
   const tasksList = useSelector(getTaskList)
   const [value, setValue] = useState(taskInfo.name || '')
+  const [isNotification, setIsNotification] = useState(false)
+  const notificationClass = isNotification ? `${root.main_wrap_notification_visible}` : `${root.main_wrap_notification_hidden}`
 
 
   const onChangeInput = (e: { target: { value: React.SetStateAction<string> } }) => {
@@ -27,13 +29,12 @@ export function EditModal() {
 
   const handleEdit = () => {
     if (value.length === 0) return
-    if (!checkUniquenessOfTaskText(value, tasksList)) return
-    const TaskInfo = {
-      id: id,
-      name: value,
+    if (checkUniquenessOfTaskText(value, tasksList)) {
+      setIsNotification(true)
+      return
     }
 
-    dispatch(updateTaskInfo(TaskInfo))
+    dispatch(updateTaskName(id, value))
     setTimeout(() => history.push(`/tasks/${id}`), 0)
   }
 
@@ -79,6 +80,10 @@ export function EditModal() {
         </div>
       </div>
       <div className={root.modal_background}></div>
+      <div
+        className={`${root.main_wrap_notification} ${notificationClass}`}
+      >Название задачи введено некорректно!
+      </div>
     </div>
   ), node)
 }

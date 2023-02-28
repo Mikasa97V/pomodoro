@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useMemo, useRef, useState} from "react";
+import React, {createContext, useEffect, useMemo, useState} from "react";
 import {useDispatch} from "react-redux";
 import {
   setTotalWorkTime,
@@ -19,6 +19,7 @@ type TimerContextProps = {
   handleGreenButtonClick: (a: GreenButton) => void
   handleRedButtonClick: (a: RedButton) => void
   increaseTotalWorksDone: () => void
+  increaseTime: () => void
   totalWorksDone: number
   totalTime: number
   workTime: number
@@ -34,6 +35,7 @@ export const TimerContext = createContext<TimerContextProps>({
   handleGreenButtonClick: a => console.log(a),
   handleRedButtonClick: a => console.log(a),
   increaseTotalWorksDone: () => {},
+  increaseTime: () => {},
   pausedTime: 0,
   totalPauses: 0,
   workTime: 0,
@@ -63,13 +65,10 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({
   // Запущен ли таймер
   const [isCounting, setIsCounting] = useState(false)
 
-  const DEFAULT_WORK_TIME_SECONDS = 25 * 60
-  const DEFAULT_BREAK_TIME_SECONDS = 3 * 60
-  const LONG_BREAK_TIME_SECONDS = 15 * 60
+  const DEFAULT_WORK_TIME_SECONDS = 3//25 * 60
+  const DEFAULT_BREAK_TIME_SECONDS = 5//3 * 60
+  const LONG_BREAK_TIME_SECONDS = 9//15 * 60
 
-  // const DEFAULT_WORK_TIME_SECONDS = 3
-  // const DEFAULT_BREAK_TIME_SECONDS = 1
-  // const LONG_BREAK_TIME_SECONDS = 2
   // Остаток секунд на таймере
   const [seconds, setSeconds] = useState(DEFAULT_WORK_TIME_SECONDS) // change-minutes
 
@@ -226,6 +225,7 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({
         handleGreenButtonClick,
         handleRedButtonClick,
         increaseTotalWorksDone,
+        increaseTime,
         totalWorksDone,
         totalTime,
         workTime,

@@ -13,10 +13,9 @@ export function TimerButtons() {
   } = useContext(TimerContext)
 
   const id = useRouteMatch<{ id: string }>("/tasks/:id")?.params.id;
-  let isDisabledStopButton, isDisabledStartButton
 
-  isDisabledStopButton = greenButton === 'Старт' || !Boolean(id)
-  isDisabledStartButton = !Boolean(id)
+  const isDisabledStopButton = greenButton === 'Старт' || !Boolean(id)
+  const isDisabledStartButton = !Boolean(id)
 
   const buttonsBackState: any = useMemo(() => {
     return {
