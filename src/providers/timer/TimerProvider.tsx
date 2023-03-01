@@ -79,9 +79,9 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({
   // Запущен ли таймер
   const [isCounting, setIsCounting] = useState(false)
 
-  const DEFAULT_WORK_TIME_SECONDS = 25 * 60
-  const DEFAULT_BREAK_TIME_SECONDS = 3 * 60
-  const LONG_BREAK_TIME_SECONDS = 15 * 60
+  const DEFAULT_WORK_TIME_SECONDS = 3//25 * 60
+  const DEFAULT_BREAK_TIME_SECONDS = 5//3 * 60
+  const LONG_BREAK_TIME_SECONDS = 9//15 * 60
 
   // Остаток секунд на таймере
   const [seconds, setSeconds] = useState(DEFAULT_WORK_TIME_SECONDS)
