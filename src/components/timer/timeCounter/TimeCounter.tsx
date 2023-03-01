@@ -22,7 +22,6 @@ export function TimeCounter({
     isWorkTime,
     greenButton,
     increaseTime,
-
   } = useContext(TimerContext)
   const dispatch = useDispatch()
   const tomato = useSelector(getTaskTomatoById(id))

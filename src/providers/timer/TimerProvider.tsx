@@ -7,14 +7,17 @@ import {
   setTotalPauseTime,
   setTotalTime,
 } from "../../features/statistics/actionTypes";
-import {deleteTask, updateTomato} from "../../features/tasks/actionTypes";
+import {deleteTask, updateTask, updateTaskNumber, updateTomato} from "../../features/tasks/actionTypes";
 import {useHistory} from "react-router-dom";
-import {getTaskTomatoById} from "../../features/tasks/selectors";
-import {setTomato} from "../../features/tomatoCount/actionTypes";
-// import {setTomato} from "../../features/tomatoCount/actionTypes";
+import {
+  getTaskNumberById,
+  getTaskPomodorsById,
+  getTaskTomatoById
+} from "../../features/tasks/selectors";
+import {setDeletedTomato} from "../../features/tomatoCount/actionTypes";
 
 export type GreenButton = 'START' | 'PAUSE' | 'CONTINUE'
-export type RedButton = 'STOP' | 'MISS' | 'DONE' | 'BTNDONE'
+export type RedButton = 'STOP' | 'MISS' | 'DONE' | 'BTNDONE' | 'BTNMISS'
 type Button = 'RED' | 'GREEN'
 type TimerContextProps = {
   seconds: number
@@ -59,6 +62,8 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({
   const dispatch = useDispatch()
   const history = useHistory()
   let currentTomato = useSelector(getTaskTomatoById(taskId))
+  const taskPomodors = useSelector(getTaskPomodorsById(taskId))
+  const taskNumber = useSelector(getTaskNumberById(taskId))
   const [isPause, setIsPause] = useState(false)
 
   // Статистика
@@ -74,12 +79,12 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({
   // Запущен ли таймер
   const [isCounting, setIsCounting] = useState(false)
 
-  const DEFAULT_WORK_TIME_SECONDS = 3//25 * 60
-  const DEFAULT_BREAK_TIME_SECONDS = 5//3 * 60
-  const LONG_BREAK_TIME_SECONDS = 9//15 * 60
+  const DEFAULT_WORK_TIME_SECONDS = 25 * 60
+  const DEFAULT_BREAK_TIME_SECONDS = 3 * 60
+  const LONG_BREAK_TIME_SECONDS = 15 * 60
 
   // Остаток секунд на таймере
-  const [seconds, setSeconds] = useState(DEFAULT_WORK_TIME_SECONDS) // change-minutes
+  const [seconds, setSeconds] = useState(DEFAULT_WORK_TIME_SECONDS)
 
   // Тип таймера работа / отдых
   const [isWorkTime, setIsWorkTime] = useState<boolean | null>(null)
@@ -94,7 +99,8 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({
       PAUSE: 'Пауза',
       STOP: 'Стоп',
       CONTINUE: 'Продолжить',
-      MISS: 'Пропустить',
+      MISS: 'MISS',
+      BTNMISS: 'Пропустить',
       DONE: 'Сделано',
       BTNDONE: 'BTNDONE',
     }
@@ -112,7 +118,6 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({
   const increaseTomato = () => {
     const tomato = currentTomato + 1
     dispatch(updateTomato(taskId, tomato))
-    // dispatch(setTomato(tomato))
   }
 
   const handleStart = () => {
@@ -124,7 +129,7 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({
   const handlePause = () => {
     setIsPause(true)
     setButtonState('GREEN', 'CONTINUE')
-    setButtonState('RED', isWorkTime ? 'DONE' : 'MISS')
+    setButtonState('RED', isWorkTime ? 'DONE' : 'BTNMISS')
     setIsCounting(false)
     setTotalPausesLocal((prev) => ++prev)
   }
@@ -138,43 +143,43 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({
   }
   const handleContinue = () => {
     setButtonState('GREEN', 'PAUSE')
-    setButtonState('RED', isWorkTime ? 'STOP' : 'MISS')
+    setButtonState('RED', isWorkTime ? 'STOP' : 'BTNMISS')
     setIsCounting(true)
   }
   const handleMiss = () => {
     setButtonState('GREEN', 'START')
     setButtonState('RED', 'STOP')
-    if (seconds >= DEFAULT_BREAK_TIME_SECONDS / 2 || seconds >= LONG_BREAK_TIME_SECONDS / 2) {
-      increaseTomato()
-      // dispatch(setTomato(currentTomato))
-    }
+    if (seconds >= DEFAULT_BREAK_TIME_SECONDS / 2 || seconds >= LONG_BREAK_TIME_SECONDS / 2) increaseTomato()
     setIsWorkTime(null)
     setIsCounting(false)
     setSeconds(DEFAULT_WORK_TIME_SECONDS)
   }
   const handleDone = () => {
     setButtonState('GREEN', 'PAUSE')
-    setButtonState('RED', 'MISS')
+    setButtonState('RED', 'BTNMISS')
     setIsWorkTime(false)
     setIsCounting(true)
     increaseTotalWorksDone()
     setSeconds(totalWorksDone % 4 === 0 ? LONG_BREAK_TIME_SECONDS : DEFAULT_BREAK_TIME_SECONDS)
-    if (!isPause) {
-      increaseTomato()
-      // dispatch(setTomato(currentTomato))
-    }
+    if (!isPause) increaseTomato()
     setIsPause(false)
   }
 
   const handleDoneWithBtn = () => {
-    // dispatch(setTomato(currentTomato))
+    const bonusTomato = currentTomato + 1
+    dispatch(setDeletedTomato(bonusTomato))
     dispatch(deleteTask(taskId))
     setIsPause(false)
     handleStop()
     increaseTotalWorksDone()
     increaseTomato()
-    // dispatch(setTomato(currentTomato))
     history.push(`/tasks`)
+  }
+
+  const handleMissWithBtn = () => {
+    handleMiss()
+    dispatch(updateTask(taskId, taskPomodors - 1))
+    dispatch(updateTaskNumber(taskId, taskNumber + 1))
   }
 
   const handleGreenButtonClick = (state: GreenButton) => {
@@ -196,6 +201,8 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({
         return handleDone()
       case "MISS":
         return handleMiss()
+      case "BTNMISS":
+        return handleMissWithBtn()
       case "BTNDONE":
         return handleDoneWithBtn()
     }

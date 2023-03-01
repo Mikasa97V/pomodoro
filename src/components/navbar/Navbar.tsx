@@ -3,7 +3,6 @@ import { NavLink } from 'react-router-dom'
 import './style.css'
 import TomatoLogo from '../../assets/img/TomatoLogo.svg'
 import Equalizer from '../../assets/img/Equalizer-statistics.svg'
-// import Home from '../../assets/img/Home.svg'
 
 export const Navbar: React.FC = () => (
   <nav>

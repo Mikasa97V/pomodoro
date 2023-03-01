@@ -23,7 +23,8 @@ export function TimerButtons() {
       'Пауза': 'PAUSE',
       'Стоп': 'STOP',
       'Продолжить': 'CONTINUE',
-      'Пропустить': 'MISS',
+      'Пропустить': 'BTNMISS',
+      'MISS': 'MISS',
       'Сделано': 'BTNDONE',
     }
   }, [])

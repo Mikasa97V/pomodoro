@@ -5,7 +5,6 @@ import root from 'index.module.css'
 import {useDispatch} from "react-redux"
 import {addNewTask} from "../../../features/tasks/actionTypes"
 import {TData} from "./taskFormType";
-// import {checkUniquenessOfTaskText} from "../../../helpers/checkUniquenessOfTaskText";
 
 const {v1: uniqueId} = require('uuid')
 

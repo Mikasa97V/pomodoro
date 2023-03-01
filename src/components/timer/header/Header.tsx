@@ -12,10 +12,17 @@ export function Header({taskName, tomato }: IProps) {
     if (!isWorkTime) return s.main_wrap_green
   }, [isWorkTime])
 
+  const conversion = () => {
+    const declension = ['помидор', 'помидора', 'помидоров'];
+    const cases = [2, 0, 1, 1, 1, 2];
+    return declension[ (tomato%100>4 && tomato%100<20)? 2 : cases[(tomato%10<5)?tomato%10:5] ];
+  }
+
+
   return (
     <div className={`${s.main_wrap} ${headerColor}`}>
       <div className={s.task_text}>{taskName || 'Выберите задачу из списка'}</div>
-      <div className={s.count}>{taskName ? `Помидор ${tomato}` : ''}</div>
+      <div className={s.count}>{tomato ? `Помидор ${tomato}` : ''}</div>
     </div>
   )
 }
