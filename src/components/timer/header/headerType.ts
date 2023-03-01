@@ -1,3 +1,4 @@
 export interface IProps {
-  taskName: string
+  taskName: string,
+  tomato: number,
 }

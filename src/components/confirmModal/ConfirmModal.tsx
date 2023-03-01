@@ -6,8 +6,9 @@ import {useHistory, useRouteMatch} from "react-router-dom"
 import Cancel from '../../assets/img/Cancel.svg'
 import {deleteTask} from "../../features/tasks/actionTypes";
 import {useDispatch, useSelector} from "react-redux";
-import {getTaskList} from "../../features/tasks/selectors";
+import {getTaskList, getTaskTomatoById} from "../../features/tasks/selectors";
 import {TData} from "../Forms/task-form/taskFormType";
+import {setDeletedTomato} from "../../features/tomatoCount/actionTypes";
 
 export function ConfirmModal() {
   const id = useRouteMatch<{ id: string }>("/tasks/:id")?.params.id
@@ -15,12 +16,14 @@ export function ConfirmModal() {
   const history = useHistory()
   const dispatch = useDispatch()
   const taskList = useSelector(getTaskList)
+  const tomato = useSelector(getTaskTomatoById(id))
 
 
   const handleDelete = () => {
     const taskListFiltered = taskList.filter((it: TData) => it.id !== id)
     const nextTask = taskListFiltered[0] || taskListFiltered[1]
     const url = `/tasks/${nextTask ? nextTask.id : ''}`
+    dispatch(setDeletedTomato(tomato))
     dispatch(deleteTask(id))
     setTimeout(() => history.push(url), 0)
   }

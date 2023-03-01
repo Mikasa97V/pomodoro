@@ -24,7 +24,7 @@ export function TimerButtons() {
       'Стоп': 'STOP',
       'Продолжить': 'CONTINUE',
       'Пропустить': 'MISS',
-      'Сделано': 'DONE',
+      'Сделано': 'BTNDONE',
     }
   }, [])
 

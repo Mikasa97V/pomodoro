@@ -1,5 +1,5 @@
 import React, {createContext, useEffect, useMemo, useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {
   setTotalWorkTime,
   setTotalWorksDone,
@@ -7,9 +7,14 @@ import {
   setTotalPauseTime,
   setTotalTime,
 } from "../../features/statistics/actionTypes";
+import {deleteTask, updateTomato} from "../../features/tasks/actionTypes";
+import {useHistory} from "react-router-dom";
+import {getTaskTomatoById} from "../../features/tasks/selectors";
+import {setTomato} from "../../features/tomatoCount/actionTypes";
+// import {setTomato} from "../../features/tomatoCount/actionTypes";
 
 export type GreenButton = 'START' | 'PAUSE' | 'CONTINUE'
-export type RedButton = 'STOP' | 'MISS' | 'DONE'
+export type RedButton = 'STOP' | 'MISS' | 'DONE' | 'BTNDONE'
 type Button = 'RED' | 'GREEN'
 type TimerContextProps = {
   seconds: number
@@ -52,6 +57,10 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({
                                                               children
                                                             }) => {
   const dispatch = useDispatch()
+  const history = useHistory()
+  let currentTomato = useSelector(getTaskTomatoById(taskId))
+  const [isPause, setIsPause] = useState(false)
+
   // Статистика
   const [totalTime, setTotalTimeLocal] = useState(0)
   const [workTime, setWorkTime] = useState(0)
@@ -86,7 +95,8 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({
       STOP: 'Стоп',
       CONTINUE: 'Продолжить',
       MISS: 'Пропустить',
-      DONE: 'Сделано'
+      DONE: 'Сделано',
+      BTNDONE: 'BTNDONE',
     }
   }, [])
 
@@ -99,6 +109,11 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({
   }
 
   const increaseTime = () => setSeconds((prevSeconds) => prevSeconds + 60)
+  const increaseTomato = () => {
+    const tomato = currentTomato + 1
+    dispatch(updateTomato(taskId, tomato))
+    // dispatch(setTomato(tomato))
+  }
 
   const handleStart = () => {
     setButtonState('GREEN', 'PAUSE')
@@ -107,12 +122,14 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({
     setIsCounting(true)
   }
   const handlePause = () => {
+    setIsPause(true)
     setButtonState('GREEN', 'CONTINUE')
     setButtonState('RED', isWorkTime ? 'DONE' : 'MISS')
     setIsCounting(false)
     setTotalPausesLocal((prev) => ++prev)
   }
   const handleStop = () => {
+    setIsPause(false)
     setButtonState('GREEN', 'START')
     setButtonState('RED', 'STOP')
     setIsWorkTime(null)
@@ -127,6 +144,10 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({
   const handleMiss = () => {
     setButtonState('GREEN', 'START')
     setButtonState('RED', 'STOP')
+    if (seconds >= DEFAULT_BREAK_TIME_SECONDS / 2 || seconds >= LONG_BREAK_TIME_SECONDS / 2) {
+      increaseTomato()
+      // dispatch(setTomato(currentTomato))
+    }
     setIsWorkTime(null)
     setIsCounting(false)
     setSeconds(DEFAULT_WORK_TIME_SECONDS)
@@ -138,6 +159,22 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({
     setIsCounting(true)
     increaseTotalWorksDone()
     setSeconds(totalWorksDone % 4 === 0 ? LONG_BREAK_TIME_SECONDS : DEFAULT_BREAK_TIME_SECONDS)
+    if (!isPause) {
+      increaseTomato()
+      // dispatch(setTomato(currentTomato))
+    }
+    setIsPause(false)
+  }
+
+  const handleDoneWithBtn = () => {
+    // dispatch(setTomato(currentTomato))
+    dispatch(deleteTask(taskId))
+    setIsPause(false)
+    handleStop()
+    increaseTotalWorksDone()
+    increaseTomato()
+    // dispatch(setTomato(currentTomato))
+    history.push(`/tasks`)
   }
 
   const handleGreenButtonClick = (state: GreenButton) => {
@@ -159,6 +196,8 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({
         return handleDone()
       case "MISS":
         return handleMiss()
+      case "BTNDONE":
+        return handleDoneWithBtn()
     }
   }
 
@@ -176,6 +215,7 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({
       if (isWorkTime === true) {
         handleDone()
       } else {
+        setIsPause(false)
         handleMiss()
       }
     }

@@ -5,8 +5,10 @@ import {getPadTime} from '../../../helpers/getPadTime'
 import {IProps} from "./timeCounterType";
 import {TimerContext} from "../../../providers/timer/TimerProvider";
 import IncreaseTime from '../../../assets/img/Increase-time.svg';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {deleteTask, updateTask, updateTaskNumber} from "../../../features/tasks/actionTypes";
+import {getTaskTomatoById} from "../../../features/tasks/selectors";
+import {setDeletedTomato} from "../../../features/tomatoCount/actionTypes";
 
 export function TimeCounter({
                               id,
@@ -23,6 +25,7 @@ export function TimeCounter({
 
   } = useContext(TimerContext)
   const dispatch = useDispatch()
+  const tomato = useSelector(getTaskTomatoById(id))
 
   totalSeconds = id ? totalSeconds : 0
 
@@ -47,8 +50,10 @@ export function TimeCounter({
   }
 
   const deleteTaskHandle = () => {
+    dispatch(setDeletedTomato(tomato))
     dispatch(deleteTask(id))
   }
+
   useEffect(() => {
     if (totalSeconds === 0 && !isWorkTime) updateTaskInfo()
     if (pomodors === 0) deleteTaskHandle()

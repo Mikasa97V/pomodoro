@@ -4,7 +4,7 @@ import {
   DELETE_TASK,
   UPDATE_ALL_TASKS,
   UPDATE_POMODORS,
-  UPDATE_TASK_NAME, UPDATE_TASK_NUMBER
+  UPDATE_TASK_NAME, UPDATE_TASK_NUMBER, UPDATE_TOMATO
 } from './actionTypes'
 import { Reducer } from "redux";
 
@@ -14,6 +14,7 @@ export type Task = {
   workTime: number,
   restTime?: number,
   name: string,
+  tomato: number,
 }
 export type TTaskData = {
   tasks: Task[],
@@ -57,6 +58,19 @@ export const TasksReducer: Reducer<TTaskData> = (state = initialState, action) =
             return {
               ...it,
               taskNumber: action.data
+            }
+          }
+          return it
+        })
+      }
+    case UPDATE_TOMATO:
+      return  {
+        ...state,
+        tasks: state.tasks.map((it) => {
+          if (it.id === action.id) {
+            return {
+              ...it,
+              tomato: action.data
             }
           }
           return it

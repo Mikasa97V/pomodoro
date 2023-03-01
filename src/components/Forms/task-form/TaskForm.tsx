@@ -23,6 +23,7 @@ export function TaskForm() {
     workTime: 25,
     taskNumber: 1,
     name: value,
+    tomato: 0,
   }
 
   const addTask = () => {

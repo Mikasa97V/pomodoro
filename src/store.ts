@@ -1,21 +1,21 @@
 import { combineReducers, createStore } from 'redux'
 import { devToolsEnhancer } from 'redux-devtools-extension'
-import { CounterReducer } from './features/counter'
 import {TasksReducer} from "./features/tasks";
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import {StatisticsReducer} from "./features/statistics"; // defaults to localStorage for web
+import {StatisticsReducer} from "./features/statistics";
+import {TomatoCountReducer} from "./features/tomatoCount";
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['tasksReducer', 'statisticsReducer']
+  whitelist: ['tasksReducer', 'statisticsReducer', 'tomatoCount']
 }
 
 const rootReducer = combineReducers({
-  count: CounterReducer,
   tasksReducer: TasksReducer,
-  statisticsReducer: StatisticsReducer
+  statisticsReducer: StatisticsReducer,
+  tomatoCount: TomatoCountReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

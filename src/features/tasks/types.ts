@@ -3,7 +3,7 @@ import {
   DELETE_TASK,
   UPDATE_ALL_TASKS,
   UPDATE_POMODORS, UPDATE_TASK_NAME,
-  UPDATE_TASK_NUMBER
+  UPDATE_TASK_NUMBER, UPDATE_TOMATO
 } from "./actionTypes";
 
 export type TTaskData = {
@@ -26,6 +26,11 @@ export type TUpdateTask = {
 
 export type TUpdateTaskNumber = {
   type: typeof UPDATE_TASK_NUMBER,
+  id: string,
+  data: number,
+}
+export type TUpdateTomato = {
+  type: typeof UPDATE_TOMATO,
   id: string,
   data: number,
 }

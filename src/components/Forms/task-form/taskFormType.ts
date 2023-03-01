@@ -4,4 +4,5 @@ export type TData = {
   workTime: number,
   taskNumber: number,
   name: string,
+  tomato: number,
 }

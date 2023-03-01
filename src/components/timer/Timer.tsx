@@ -15,6 +15,7 @@ export function Timer() {
       <div className={s.main_wrap}>
         <Header
           taskName={taskById?.name}
+          tomato={taskById?.tomato}
         />
         <TimeCounter
           id={idFromPath}

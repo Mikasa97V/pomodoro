@@ -4,3 +4,8 @@ export const getTaskInfoById = (id?: string) => (state: any) => {
     const taskList = state.tasksReducer.tasks
     return taskList.find((it: any) => it.id === id);
 }
+
+export const getTaskTomatoById = (id?: string) => (state: any) => {
+    const taskList = state.tasksReducer.tasks
+    return taskList.find((it: any) => it.id === id)?.tomato;
+}
