@@ -69,6 +69,10 @@ input:focus-visible {
   outline: none;
 }
 
+select:focus-visible {
+  outline: none;
+}
+
 .primary_button {
   color: var(--white);
   background: var(--light-green);

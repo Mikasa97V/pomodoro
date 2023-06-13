@@ -1,22 +1,20 @@
-import React, {useContext, useEffect} from 'react'
+import React, { useContext, useEffect } from 'react'
 import s from './timeCounter.module.css'
-import {TimerButtons} from './timerButtons'
-import {getPadTime} from '../../../helpers/getPadTime'
-import {IProps} from "./timeCounterType";
-import {TimerContext} from "../../../providers/timer/TimerProvider";
-import IncreaseTime from '../../../assets/img/Increase-time.svg';
-import {useDispatch, useSelector} from "react-redux";
-import {deleteTask, updateTask, updateTaskNumber} from "../../../features/tasks/actionTypes";
-import {getTaskTomatoById} from "../../../features/tasks/selectors";
-import {setDeletedTomato} from "../../../features/tomatoCount/actionTypes";
+import { TimerButtons } from './timerButtons'
+import { getPadTime } from '../../../helpers/getPadTime'
+import { IProps } from './timeCounterType'
+import { TimerContext } from '../../../providers/timer/TimerProvider'
+import IncreaseTime from '../../../assets/img/Increase-time.svg'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  deleteTask,
+  updateTask,
+  updateTaskNumber,
+} from '../../../features/tasks/actionTypes'
+import { getTaskTomatoById } from '../../../features/tasks/selectors'
+import { setDeletedTomato } from '../../../features/tomatoCount/actionTypes'
 
-export function TimeCounter({
-                              id,
-                              taskText,
-                              taskNumber,
-                              pomodors,
-                            }: IProps) {
-
+export function TimeCounter({ id, taskText, taskNumber, pomodors }: IProps) {
   let {
     seconds: totalSeconds,
     isWorkTime,
@@ -67,15 +65,18 @@ export function TimeCounter({
         <button
           className={s.increase_time_wrap}
           disabled={isDisabledAddTimeButton}
-          onClick={increaseTime}>
-          <img src={IncreaseTime} alt="Add time"/>
+          onClick={increaseTime}
+        >
+          <img src={IncreaseTime} alt="Add time" />
         </button>
       </div>
       <div className={s.task_name_wrap}>
-        <span className={s.task_number}>{taskText ? `Задача ${taskNumber} - ` : ''}</span>
+        <span className={s.task_number}>
+          {taskText ? `Задача ${taskNumber} - ` : ''}
+        </span>
         <span className={s.task_text}>{taskText || ''}</span>
       </div>
-      <TimerButtons/>
+      <TimerButtons />
     </div>
   )
 }

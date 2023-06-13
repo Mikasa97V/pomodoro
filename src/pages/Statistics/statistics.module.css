@@ -53,3 +53,35 @@
 .pomodors_block {
 
 }
+
+
+.select {
+    width: 100%;
+    max-width: 370px;
+    height: 55px;
+    padding: 19px 15px;
+
+    font: normal 400 16px / 17px 'SF UI Display', sans-serif;
+
+    color: var(--black);
+    border: none;
+    background: var(--gray);
+    background-image: url('../../assets/img/Rectangle.png');
+    background-repeat: no-repeat;
+    background-position: calc(100% - 17px) 26px;
+    cursor: pointer;
+
+    -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari and Chrome */
+    appearance:none;
+
+}
+
+option:checked {
+    display: none;
+}
+
+.option {
+    padding: 19px 15px;
+    background: var(--gray);
+}

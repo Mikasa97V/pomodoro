@@ -1,22 +1,16 @@
-import React, {useMemo} from 'react'
+import React, { useMemo } from 'react'
 import s from './item.module.css'
-import {IProps} from "./itemType";
-import {useDispatch, useSelector} from "react-redux";
-import {getTaskInfoById} from "../../../../../../features/tasks/selectors";
-import {updateTask} from "../../../../../../features/tasks/actionTypes";
-import {useHistory} from 'react-router-dom'
+import { IProps } from './itemType'
+import { useDispatch, useSelector } from 'react-redux'
+import { getTaskInfoById } from '../../../../../../features/tasks/selectors'
+import { updateTask } from '../../../../../../features/tasks/actionTypes'
+import { useHistory } from 'react-router-dom'
 
 export const Item = (props: IProps) => {
-  const {
-    taskId,
-    text,
-    icon,
-    func,
-    setIsDropDownOpen,
-  } = props
+  const { taskId, text, icon, func, setIsDropDownOpen } = props
 
-  const task = useSelector(getTaskInfoById(taskId));
-  const dispatch = useDispatch();
+  const task = useSelector(getTaskInfoById(taskId))
+  const dispatch = useDispatch()
 
   const history = useHistory()
 
@@ -62,7 +56,11 @@ export const Item = (props: IProps) => {
 
   return (
     <li className={s.item_wrap}>
-      <button className={s.item} onClick={handlerClick} disabled={getDisableCondition}>
+      <button
+        className={s.item}
+        onClick={handlerClick}
+        disabled={getDisableCondition}
+      >
         {icon}
         <span>{text}</span>
       </button>
